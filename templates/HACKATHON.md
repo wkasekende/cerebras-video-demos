@@ -4,32 +4,36 @@
 
 ## The event: Cerebras x Kimi K3.1 Pro x OpenClaw Weekend Hackathon
 
-This kit exists to make your **submission video**. What the event asks of it (from the organisers' page; their page wins if it differs):
+This kit is **optional**: a starting point and reference for presenting your demo video (Cerebras styling, branding, elements and fonts, a worked example and a post template). You do not have to use it, and its style is not required. The official [Hackathon Guide](https://docs.google.com/document/d/1Vvf2SjScBt3yBeTVZRoKtOyE7rGEP-gWV_ApzwXepEQ) wins over anything here. What the event asks, and what the kit does about it:
 
 | The event says | What the kit does |
 |---|---|
-| Demo video **60 seconds at most** | `make-film.py` prints the film's length and warns above 60 s. Keep your scenes short: an intro is about 6 s, the clip 20 to 35 s, the claim and lockup about 8 s |
+| Demo video **60 seconds at most** (hard limit) | `make-film.py` prints the film's length and warns above 60 s. Keep your scenes short: an intro is about 6 s, the clip 20 to 35 s, the claim and lockup about 8 s |
 | **Show Cerebras speed** | the claim card, the live tokens-per-second meter and the DONE clocks are derived from your numbers; Kimi on Cerebras is stated as up to 1,000 tokens a second |
 | **Side-by-side with a GPU provider** recommended | the `versus` scene (Cerebras on the left, a desaturated GPU lane on the right; set `compare` in a run log) |
 | **Focus on your project** | the intro slide is your title and description; your own recording is the whole window |
 | **Protect your privacy** (no notifications, tabs, keys, emails) | the build refuses a storyboard that contains something shaped like an API key; you still have to look at your own recording |
 | Tag **@Cerebras** and **@Kimi_Moonshot**, add **#KimiOnCerebras** | in your post, not the video |
-| Must use **Kimi K3.1 Pro on Cerebras** and the **OpenClaw** harness | your project does; the film's `model` field should say so (the model id for the event is `moonshotai-kimi-k3.1-pro-trial`; reasoning is off unless you set `reasoning_effort`) |
+| Must use **Kimi K3.1 Pro on Cerebras** and the **OpenClaw** harness | your project does; the film's `model` field should say so (model ID `moonshotai-kimi-k3.1-pro-trial` on the standard Cerebras Inference API, base URL `https://api.cerebras.ai/v1`; reasoning is off unless you set `reasoning_effort`) |
 
-**Timeline** (Pacific Time): build Saturday 21 Nov 10:00 to Sunday 22 Nov 10:00; post by Sunday 10:00; X impressions and Reddit upvotes are counted Tuesday 24 Nov 10:00. Prizes: three $1,000 X audience prizes, one $1,000 Reddit prize (flair "Kimi K3.1 Pro Hackathon"), and a $1,000 tokens-per-second bounty. Organic reach only.
+**Timeline** (Pacific Time): hacking window Sat Nov 21, 10:00 AM PT to Sun Nov 22, 10:00 AM PT (24 hours); submissions due Sun Nov 22, 10:00 AM PT; X impressions and Reddit upvotes are counted Tue Nov 24, 10:00 AM PT.
+
+**Prizes:** Audience Choice on X, 3 x $1,000 (most organic impressions on the X demo post); Audience Choice on Reddit, 1 x $1,000 (most organic upvotes on [r/cerebras](https://www.reddit.com/r/cerebras), flair "Kimi K3.1 Pro Hackathon"); Speed Bounty "Santa's Speedy Shopper", $1,000 for the fastest run (tokens per second) of a holiday task, with OpenClaw and Kimi K3.1 Pro on Cerebras finding 5 real Christmas gifts on real shopping websites. The Speed Bounty entry steps are in the guide. Organic reach only. Record your public X and Reddit demos with standard OpenClaw.
+
+**How to submit:** post your demo video on **X** (required) with `@Cerebras`, `@Kimi_Moonshot` and `#KimiOnCerebras`; optionally also post on **r/cerebras** with the flair above. There is no Discord submission: Discord is for questions and support.
 
 **The post** (X is the official submission; Reddit is optional):
 
 ```
 Project Name: <name>
-Team Members: <@handles>
+Team Members: <X / Reddit handles>
 Project Description: <2 to 4 sentences: what it does, for whom, what the speed changes>
 GitHub Repository: <link, recommended>
 Demo Video: (attached, 60 s max)
 #KimiOnCerebras @Cerebras @Kimi_Moonshot
 ```
 
-**Fastest route to a good entry:** build your project with OpenClaw on Kimi; screen-record it working; Track A below (15 minutes) for the film, or Track C (`from-run`) if your agent's run log is the story; post the MP4. Support during the event is on the Cerebras Discord (`#hackathon-support`).
+**Fastest route to a good entry:** build your project with OpenClaw on Kimi; screen-record it working; Track A below (15 minutes) for the film, or Track C (`from-run`) if your agent's run log is the story; post the MP4. Questions and support: the [Cerebras Discord](https://discord.gg/XWXRquhx7H), `#hackathon-support`.
 
 Two tracks. **Track A: pop your own recording in** (about 15 minutes: edit one JSON file; `templates/project-demo/`). **Track C: from your agent's run** (no recording needed): write `templates/from-run/run.json` (project, description, the task, what the agent said and did, the answer) and run `python3 tools/make-film.py templates/from-run/run.json`. Which one? See [`templates/agent-film/README.md`](agent-film/README.md), "Start here".
 
