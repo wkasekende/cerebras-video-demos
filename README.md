@@ -144,3 +144,8 @@ The full list, with the render rules, is in [templates/agent-film/README.md](tem
 | `tools/` | `make-film.py` (the one command), the renderer (`agent-film.mjs`), the verifier and the gate (`agent-film-check.sh`) |
 | `brand/`, `fonts/`, `kits/kimi/brand/` | the Cerebras marks, the two typefaces and the Kimi marks |
 | `lambda/` | optional: render in your own AWS account (your credentials, your cost) |
+
+## Licence
+
+Code, templates and documentation: [Apache License 2.0](LICENSE). The Cerebras and Kimi marks and the fonts are not covered by it: see [NOTICE](NOTICE). Contributing: [CONTRIBUTING.md](CONTRIBUTING.md). Security: [SECURITY.md](SECURITY.md).
+

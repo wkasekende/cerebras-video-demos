@@ -1,0 +1,31 @@
+Cerebras Video Demos
+Copyright 2026 the Cerebras Video Demos contributors
+
+This repository's code, templates and documentation are licensed under the Apache License, Version 2.0 (see LICENSE).
+What the licence does NOT cover is listed here.
+
+Trademarks and logos
+  Cerebras, the Cerebras wordmark and the Cerebras icon (brand/cerebras/) are marks of Cerebras Systems, Inc.
+  Kimi, the Kimi logo and icon (kits/kimi/brand/) are marks of Moonshot AI.
+  They are included so that a film can show the "Cerebras x Kimi" partnership. They are not licensed by the Apache
+  License and give you no right to use them beyond identifying that partnership. Do not use them to suggest
+  endorsement of your own product. Replace the partner logo (partner_logo) with your own for your project.
+
+Fonts (fonts/cerebras/)
+  Manrope (Copyright 2018 The Manrope Project Authors) and Sometype Mono (Copyright 2018 The Sometype Mono Project
+  Authors) are licensed under the SIL Open Font License 1.1. The licence texts are fonts/OFL-Manrope.txt and
+  fonts/OFL-SometypeMono.txt.
+
+Speeds and claims
+  The films are illustrations, not benchmarks. Cerebras's speed on Kimi is stated as "up to 1,000 tokens per second".
+  The GPU lane in the shipped examples streams at 60 tokens per second, a point inside the 30 to 99 tokens per second
+  that OpenRouter providers served Kimi K3.1 Pro at in November 2026; provider speeds change. If you publish a film,
+  use numbers you measured, cite where they come from, and keep the on-screen note.
+
+Your own content
+  A clip, logo or text you put in a film stays yours, and you are responsible for having the right to use it and for
+  keeping personal or sensitive information (keys, emails, notifications, browser tabs) out of it.
+
+Software
+  This repository is provided "as is", without warranty of any kind (see LICENSE). It uses puppeteer, ffmpeg and
+  Chrome for Testing, which have their own licences.
