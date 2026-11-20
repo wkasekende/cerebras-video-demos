@@ -1,0 +1,143 @@
+{
+  "slug": "ops-triage",
+  "why": "An on-call crew triages an incident beside a dashboard clip that moves and scrolls; the triage runs on a GPU lane and on Cerebras side by side; a second round re-renders on both.",
+  "model": "Kimi K3.1 Pro",
+  "prompt": "Checkout latency doubled ten minutes ago. Triage it with the crew and tell me what to do first.",
+  "popin": {
+    "video": "out/standin/dashboard.mp4"
+  },
+  "claim": {
+    "number": 1000,
+    "unit": "tokens per second",
+    "footnote": "*Demo shown with mock data."
+  },
+  "scenes": [
+    {
+      "scene": "typing",
+      "ms": 4500
+    },
+    {
+      "scene": "popin",
+      "ms": 10500
+    },
+    {
+      "scene": "versus",
+      "versus": {
+        "gpu_tps": 60,
+        "cerebras_tps": 1000,
+        "note": "Up to 16x faster: Cerebras up to 1,000 tokens/s vs 60, midway through the 30 to 99 tokens/s that OpenRouter providers run Kimi K3.1 Pro at (Nov 2026).",
+        "gpu_tps_range": [30, 99]
+      },
+      "thread": [
+        {
+          "kind": "user",
+          "text": "Checkout latency doubled ten minutes ago. Triage it with the crew and tell me what to do first."
+        },
+        {
+          "kind": "say",
+          "who": "Monitor",
+          "text": "Checkout p95 went from 410 milliseconds to 890 at 14:02 and has stayed there. Error rate is flat at 0.2 percent, so requests are slow rather than failing. Traffic is normal, which rules out a load spike and points at something the service depends on."
+        },
+        {
+          "kind": "say",
+          "who": "Database",
+          "text": "Primary connections are at 92 percent of the pool, up from 40, and the slow query log shows one query on the orders table taking 700 milliseconds where it used to take 20. A deploy at 13:58 added a filter on a column without an index."
+        },
+        {
+          "kind": "say",
+          "who": "Deployer",
+          "text": "Confirming the timing: release 8841 went out at 13:58 and touched that query. Rolling it back takes about ninety seconds and nothing in it is a schema change, so rollback is safe and reversible. The alternative is adding the index live, which locks the table for a few minutes."
+        },
+        {
+          "kind": "say",
+          "who": "Monitor",
+          "text": "Rollback is the right first move: it is fast, reversible and removes the cause. Add the index afterwards in a quiet window. I will watch p95 and the pool utilisation and call it resolved when both are back under their usual levels for five minutes."
+        }
+      ],
+      "ms": 9000
+    },
+    {
+      "scene": "versus",
+      "versus": {
+        "gpu_tps": 60,
+        "cerebras_tps": 1000,
+        "note": "Up to 16x faster: Cerebras up to 1,000 tokens/s vs 60, midway through the 30 to 99 tokens/s that OpenRouter providers run Kimi K3.1 Pro at (Nov 2026).",
+        "gpu_tps_range": [30, 99]
+      },
+      "thread": [
+        {
+          "kind": "user",
+          "text": "Roll it back and tell me when it is clear."
+        },
+        {
+          "kind": "tool",
+          "text": "Rolled back release 8841 · deploy finished in 84 s"
+        },
+        {
+          "kind": "say",
+          "who": "Monitor",
+          "text": "P95 is back to 430 milliseconds and the pool is at 38 percent. Error rate is unchanged at 0.2 percent. Holding for the five minute window before calling it resolved, and nothing else has moved on the dependency graph."
+        },
+        {
+          "kind": "say",
+          "who": "Database",
+          "text": "Index change is written and reviewed for tonight's window, with a concurrent build so it does not lock the table. The incident record has the timeline, the query, and the one line that needs the index."
+        }
+      ],
+      "ms": 6500
+    },
+    {
+      "scene": "answer",
+      "ms": 6500,
+      "answer": {
+        "lead": "Rolled back release 8841; checkout is back to normal.",
+        "bullets": [
+          [
+            "Cause:",
+            "an unindexed filter added in release 8841 at 13:58."
+          ],
+          [
+            "Fix:",
+            "rollback, p95 890 to 430 milliseconds."
+          ],
+          [
+            "Follow-up:",
+            "concurrent index build tonight."
+          ],
+          [
+            "Record:",
+            "timeline and query in the incident log."
+          ],
+          [
+            "What the crew saw:",
+            "checkout p95 doubled at 14:02 with a flat error rate and normal traffic, the database pool jumped from forty to ninety two percent, and one query on the orders table went from twenty to seven hundred milliseconds after the 13:58 deploy."
+          ],
+          [
+            "Why rollback first:",
+            "it takes about ninety seconds, nothing in the release changes the schema, and it removes the cause rather than hiding it, whereas adding the index live would lock the table for minutes during peak traffic."
+          ],
+          [
+            "How it was confirmed:",
+            "p95 returned to 430 milliseconds and the pool to thirty eight percent within two minutes, and the five minute hold passed with the error rate unchanged at 0.2 percent."
+          ]
+        ],
+        "footer_seconds": 24,
+        "footer_tokens": "3.9k",
+        "stream_ms": 207
+      }
+    },
+    {
+      "scene": "ground",
+      "ms": 1200
+    },
+    {
+      "scene": "claim",
+      "ms": 3500
+    },
+    {
+      "scene": "lockup",
+      "ms": 3000
+    }
+  ],
+  "timer": true
+}

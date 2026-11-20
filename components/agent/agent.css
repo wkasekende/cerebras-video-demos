@@ -1,0 +1,316 @@
+/* ── AGENT COMPONENTS: shared, theme-able, kit-independent ─────────────────────
+   Extracted from a reference video (2026-11-18). Components live
+   here, not in a kit and not in a layout: any layout or kit may import this file.
+   Everything is drawn at the reference video's own pixel scale (a 1920 x 1080
+   stage) and styled ONLY through the tokens below, so a theme is a token block.
+
+   Six themes ship (ember, paper, glow, halftone, bloom, tile; the list is THEMES in artifact/agent_film.py). A theme is a [data-theme] block of tokens; where it needs a dark window, the competitor lane's clock pill (--pill-dark), the white wordmark and the white partner logo, it also joins the selector lists below; a ground that is drawn rather than CSS (glow, bloom, tile) is hooked in components/agent/ground.js (mount1). See templates/EXTENDING.md. */
+.ag {
+  --font-sans: 'Manrope', 'DemoKit Fallback', system-ui, sans-serif;
+  --font-mono: 'Sometype Mono', 'DemoKit Fallback', 'DejaVu Sans Mono', monospace;
+  font-family: var(--font-sans); color: var(--ink); -webkit-font-smoothing: antialiased;
+  line-height: 1.3; text-align: start; position: relative; overflow: hidden; box-sizing: border-box;
+  background: var(--ground);
+}
+.ag *, .ag *::before, .ag *::after { box-sizing: border-box; }
+/* tokens every theme gets by default, so a new theme only names what differs */
+.ag { --send: var(--accent); --send-off: var(--bar); --user: var(--bubble); --asst: var(--card-3); --link: var(--accent);
+  --code-bg: transparent; --code-line: var(--line); --caption: rgba(255, 255, 255, .72); --ring: var(--line); }
+
+/* the competitor lane's clock pill: the ink, but on the two DARK windows (ember, bloom) the ink is light, so it is the comparison layout's loser grey (#5a5a58, as its DONE pill) with white text */
+.ag { --pill-dark: var(--ink); }
+.ag[data-theme="ember"], .ag[data-theme="bloom"] { --pill-dark: #5a5a58; }
+.ag[data-theme="ember"] {
+  --ground: #220f00;  --ground-dim: #0e0500;
+  --grid: rgba(226, 92, 44, .62);  --grid-dim: rgba(226, 92, 44, .16);
+  --window: #151716;  --card: #151716;  --card-2: #1b1d1c;  --card-3: #1d1f1e;  --bar: #232524;
+  --bubble: #292b2a;  --ink: #f2f0ec;  --ink-2: #d4d2cd;  --ink-3: #8f8d88;
+  --line: rgba(255, 255, 255, .13);  --accent: #e25124;  --on-accent: #fff;
+  --title: #e8442b;  --chip: #36150c;  --chip-ink: #f0a58f;
+  --send-idle: #f2f0ec;  --on-send-idle: #151716;  --stop: #4a1f24;  --stop-ink: #ee4a5a;
+  --shadow: 0 18px 50px rgba(0, 0, 0, .55), 0 2px 8px rgba(0, 0, 0, .4);
+  --page: #ffffff;  --on-page: #1a1c1f;  --hair: rgba(255, 255, 255, .3);
+}
+.ag[data-theme="paper"] {
+  --ground: #f3f1ed;  --ground-dim: #f3f1ed;
+  --grid: rgba(241, 90, 41, .0);  --grid-dim: rgba(241, 90, 41, .0);
+  --window: #f7f6f3;  --card: #ffffff;  --card-2: #ffffff;  --card-3: #ffffff;  --bar: #efede8;
+  --bubble: #e5e3de;  --ink: #17171a;  --ink-2: #3f3f44;  --ink-3: #6d6d73;
+  --line: rgba(0, 0, 0, .09);  --accent: #F15A29;  --on-accent: #fff;
+  --title: #F15A29;  --chip: rgba(241, 90, 41, .12);  --chip-ink: #b83c12;
+  --send-idle: #17171a;  --on-send-idle: #fff;  --stop: rgba(238, 74, 90, .14);  --stop-ink: #d62d40;
+  --shadow: 0 14px 40px rgba(20, 20, 30, .10), 0 2px 6px rgba(20, 20, 30, .06);
+  --page: #ffffff;  --on-page: #1a1c1f;  --hair: var(--line);
+  --asst: #efede8;  --caption: rgba(23, 23, 26, .55);   /* a light ground wants a dark caption and a tinted assistant card */
+}
+/* GLOW: the second reference's look (a reference video): the same app, a light window
+   (#f9fbf8) over an amber-to-red-to-black grain gradient; the user's turns are peach, the assistant's grey,
+   the send button rust. Same token names as ember and paper; nothing below the tokens knows it exists. */
+.ag[data-theme="glow"] {
+  --ground: #c4401f;  --ground-dim: #0d0302;
+  --window: #f9fbf8;  --card: #ffffff;  --card-2: #ffffff;  --card-3: #eaecea;  --bar: #eceeeb;
+  --bubble: #fbecd9;  --ink: #1b1c1b;  --ink-2: #3c3e3d;  --ink-3: #7c7f7c;
+  --line: rgba(0, 0, 0, .11);  --accent: #e0562f;  --on-accent: #fff;
+  --title: #d6532b;  --chip: #f8e1d2;  --chip-ink: #a8381b;
+  --send: #b5301a;  --send-off: #d6d8d5;  --send-idle: #1b1c1b;  --on-send-idle: #fff;
+  --stop: #f9d9d6;  --stop-ink: #b8210e;
+  --user: #fbecd9;  --asst: #eaecea;  --link: #d6532b;  --code-bg: #f4f5f3;  --code-line: rgba(0, 0, 0, .14);
+  --shadow: 0 30px 80px rgba(60, 10, 0, .38), 0 4px 14px rgba(60, 10, 0, .22);
+  --page: #ffffff;  --on-page: #1a1c1f;  --hair: rgba(255, 255, 255, .8);  --caption: rgba(255, 255, 255, .72);
+}
+/* the glow grounds: for the window beats a FLAT red base with the speck layer on top (below); the claim and the lockup have their own dark bases,
+   by the stage's kind. Without the script the ground is just its base. */
+.ag[data-theme="glow"] .ag-ground { background: linear-gradient(var(--speck-angle, 135deg), var(--glow-light, #ef9a30) var(--glow-from, 0%), var(--glow-dark, #0a0000) var(--glow-to, 100%)); }   /* the window ground: a plain light-to-dark gradient, with the RED speckle on top */
+/* THE SPECKLE: the ground is the gradient, and RED speckle goes on top of it. The red layer (.ag-sp) is a noise mask (the specks) inside a fade mask
+   along the same diagonal, so its strength can run out where you want the gradient to show: red-from is where it starts to fade, red-to where it is gone.
+   The blur sits between the two masks (the speck element is blurred after its noise mask; a filter runs before the element's own mask). ground.js builds
+   the DOM; without it the ground is just the gradient. */
+.ag-sp:not(.agm-ok) { visibility: hidden; }   /* until its mask exists: a layer with no mask is a solid colour */
+.ag-sp { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: var(--grain-blend, normal); opacity: var(--red-amount, 1);
+  -webkit-mask-image: linear-gradient(var(--speck-angle, 135deg), #000 var(--red-from, 100%), rgba(0, 0, 0, var(--red-floor, 0)) var(--red-to, 100%));
+  mask-image: linear-gradient(var(--speck-angle, 135deg), #000 var(--red-from, 100%), rgba(0, 0, 0, var(--red-floor, 0)) var(--red-to, 100%)); }   /* red-floor: the strength the red keeps past red-to, so the grain can reach the edge */
+/* an optional SECOND speckle layer (.ag-sp-b): a darker speckle over the whole ground, no fade, built only when a preset sets dark-amount. Red on a gradient that
+   passes through red is invisible there; a darker speckle is not, so the grain has no gap between the light and the dark. */
+.ag-sp-b { -webkit-mask-image: none; mask-image: none; opacity: var(--dark-amount, 0); }
+.ag-sp-b .ag-speck { background: var(--speck-dark2, #2a0705); }
+.ag-sp-c { -webkit-mask-image: none; mask-image: none; opacity: var(--lite-amount, 0); }   /* the light colour's speckle layer, clustered at the top-left */
+.ag-sp-c .ag-speck { background: var(--speck-lite, #f0a030); }
+.ag-blurbox { position: absolute; inset: calc(-1 * var(--speck-pad, 0px)); filter: blur(var(--speck-blur, 0px)); }
+.ag-speck { position: absolute; inset: 0; background: var(--speck-red, #bd2417);
+  -webkit-mask-image: var(--sp-noise, none); mask-image: var(--sp-noise, none); -webkit-mask-size: var(--speck-tw, var(--speck-tile, 768px)) var(--speck-th, var(--speck-tile, 768px)); mask-size: var(--speck-tw, var(--speck-tile, 768px)) var(--speck-th, var(--speck-tile, 768px));
+  -webkit-mask-position: var(--speck-pad, 0px) var(--speck-pad, 0px); mask-position: var(--speck-pad, 0px) var(--speck-pad, 0px); }   /* a clustered mask is ground-sized, not a repeating tile */
+.ag[data-theme="glow"][data-kind="claim"] .ag-ground { background:
+    radial-gradient(80% 40% at 50% 112%, rgba(120, 30, 12, .55) 0%, rgba(120, 30, 12, 0) 70%), linear-gradient(180deg, #080202 0%, #0d0302 60%, #1a0804 100%); }
+.ag[data-theme="glow"][data-kind="lockup"] .ag-ground { background:
+    radial-gradient(90% 60% at 30% 118%, #c95a14 0%, rgba(201, 90, 20, 0) 68%), radial-gradient(60% 60% at 0% 100%, #7a3a08 0%, rgba(122, 58, 8, 0) 70%),
+    linear-gradient(180deg, #221706 0%, #1a1005 34%, #4a1e08 72%, #9a3d10 100%); }
+.ag[data-theme="glow"] .ag-mark-d { display: none; }   /* a light window takes the dark-ink mark, as paper does */
+.ag[data-theme="glow"][data-kind="claim"], .ag[data-theme="glow"][data-kind="lockup"] { --ink: #f4f1ee; --ink-3: #9a8f89; --accent: #e8552c; --line: rgba(255, 255, 255, .22); }
+
+.ag .ag-ic { display: block; flex: none; }
+
+/* GROUND: ember is a graph-paper grid pushed through turbulence (ground.js); paper is the original's corner dots.
+   Without the script the ember ground falls back to a plain 39px grid. */
+.ag-ground { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.ag-ground.ag-off > * { display: none; }   /* off screen: no speckle layers, no shader (ground.js adds and removes the class as the ground scrolls in and out of view) */
+/* A 20% black scrim over the glow ground wherever type sits straight on it (the claim and the lockup), so the white text reads better. A fixed scrim, not a gradient, so the ground keeps its own light-to-dark. */
+.ag[data-theme="glow"][data-kind="claim"] .ag-ground::after, .ag[data-theme="glow"][data-kind="lockup"] .ag-ground::after { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, var(--text-scrim, .2)); }
+.ag[data-theme="ember"] { --grid-rgb: 232 112 64; }
+.ag[data-theme="ember"] .ag-ground:not(.ag-ground-js) {
+  background-image: linear-gradient(rgb(var(--grid-rgb) / .5) 1.6px, transparent 1.6px), linear-gradient(90deg, rgb(var(--grid-rgb) / .5) 1.6px, transparent 1.6px);
+  background-size: 39px 39px; }
+.ag-grid { position: absolute; inset: -60px; }   /* the filter's box: never rotated, so the noise stays axis-aligned and crisp */
+.ag-grid-in { position: absolute; left: 50%; top: 50%; transform-origin: 50% 50%;   /* a square the size of the stage's diagonal, centred, so any rotation still covers the stage (ground.js sizes it) */
+  background-image: linear-gradient(rgb(var(--grid-rgb) / var(--g-a, .6)) var(--g-w, 1.6px), transparent var(--g-w, 1.6px)), linear-gradient(90deg, rgb(var(--grid-rgb) / var(--g-a, .6)) var(--g-w, 1.6px), transparent var(--g-w, 1.6px));
+  background-size: var(--g-pitch, 39px) var(--g-pitch, 39px); background-position: 0 0; }
+.ag[data-theme="ember"].ag-dim { background: var(--ground-dim); }
+.ag[data-theme="paper"] .ag-ground {
+  background-image: radial-gradient(circle, rgba(241, 90, 41, .34) 1.2px, transparent 1.7px); background-size: 11px 11px;
+  -webkit-mask-image: radial-gradient(ellipse 55% 55% at 100% 0, #000, transparent 70%), radial-gradient(ellipse 55% 55% at 0 100%, #000, transparent 70%);
+  -webkit-mask-composite: source-over; mask-image: radial-gradient(ellipse 55% 55% at 100% 0, #000, transparent 70%), radial-gradient(ellipse 55% 55% at 0 100%, #000, transparent 70%); }
+
+/* MARKS: the house mark has a variant per ground */
+.ag .ag-mark { display: block; flex: none; }
+.ag .ag-mark svg { display: block; width: 100%; height: 100%; }
+.ag .ag-mark > span { display: block; width: 100%; height: 100%; }
+.ag[data-theme="ember"] .ag-mark-l, .ag[data-theme="bloom"] .ag-mark-l, .ag[data-theme="paper"] .ag-mark-d, .ag[data-theme="halftone"] .ag-mark-d { display: none; }
+.ag-logo { display: block; }  .ag-logo svg { display: block; height: 100%; width: auto; }
+.ag[data-theme="ember"] .ag-logo svg path:not([fill]),
+.ag[data-theme="bloom"] .ag-logo svg path:not([fill]),
+.ag[data-theme="glow"][data-kind="lockup"] .ag-logo svg path:not([fill]),
+.ag[data-theme="tile"][data-kind="lockup"] .ag-logo svg path:not([fill]),
+.ag[data-theme="glow"][data-kind="claim"] .ag-logo svg path:not([fill]),
+.ag[data-theme="tile"][data-kind="claim"] .ag-logo svg path:not([fill]) { fill: var(--ink); }   /* (the intro slide, on the claim's ground, carries the Cerebras logo too) */   /* the house wordmark has no fill: it takes the ink on a dark ground */
+/* SETTING partner="white": a partner's logo is white wherever the ground is dark (ember; glow's claim and lockup). Its mark keeps its colours.
+   Off, the partner's own colours are left alone. The stage carries it as data-partner="white". */
+.ag[data-partner="white"][data-theme="ember"] .ag-logo-partner svg path[fill="black"],
+.ag[data-partner="white"][data-theme="bloom"] .ag-logo-partner svg path[fill="black"],
+.ag[data-partner="white"][data-theme="glow"][data-kind="lockup"] .ag-logo-partner svg path[fill="black"],
+.ag[data-partner="white"][data-theme="glow"][data-kind="claim"] .ag-logo-partner svg path[fill="black"],
+.ag[data-partner="white"][data-theme="tile"][data-kind="lockup"] .ag-logo-partner svg path[fill="black"],
+.ag[data-partner="white"][data-theme="tile"][data-kind="claim"] .ag-logo-partner svg path[fill="black"] { fill: #fff; }
+
+/* COMPOSER: the hero card (typing) and the docked one (in the window) are one component, two sizes */
+.ag-composer { position: absolute; background: var(--card); border: 1.5px solid var(--line); box-shadow: var(--shadow); color: var(--ink); }
+.ag-composer .ag-text { position: absolute; left: 0; right: 0; top: 0; }
+.ag-composer .ag-ph { color: var(--ink-3); }
+.ag-caret { display: inline-block; width: 2px; height: 1.05em; margin-left: 1px; vertical-align: -.16em; background: var(--ink); }
+.ag-bar { position: absolute; display: flex; align-items: center; }
+.ag-model { font-weight: 500; color: var(--accent); display: inline-flex; align-items: center; white-space: nowrap; }
+.ag-model.ag-dimmed { color: color-mix(in srgb, var(--accent) 50%, transparent); }   /* dim the words, not the chevron: the chevron has its own colour */
+.ag-model .ag-ic { color: var(--chev, currentColor); }   /* the chevron is its own colour: the pill text is accent, the chevron follows the neighbouring icons */
+.ag-send { border-radius: 50%; display: grid; place-items: center; flex: none; background: var(--send); color: var(--on-accent); }
+.ag-send.idle { background: var(--send-idle); color: var(--on-send-idle); }
+.ag-send.stop { background: var(--stop); color: var(--stop-ink); }
+.ag-send.off { background: var(--send-off); color: var(--ink-3); }
+.ag-spin { animation: ag-spin 1s linear infinite; transform-origin: 50% 50%; }
+@keyframes ag-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .ag-spin { animation: none; } }
+
+/* WINDOW: chrome, title bar, welcome */
+.ag-window { position: absolute; background: var(--window); border: 1.5px solid var(--line); box-shadow: var(--shadow); overflow: hidden; }
+.ag-titlebar { position: absolute; left: 0; right: 0; top: 0; height: 76px; display: flex; align-items: center; color: var(--ink-3); }
+.ag-lights { display: flex; gap: 10px; margin-left: 12px; align-self: flex-start; margin-top: 15px; }   /* the lights sit 23 px below the window's top edge in the video (centre), above the logo line, which is centred in the bar */
+.ag-lights i { width: 16px; height: 16px; border-radius: 50%; display: block; }
+.ag-lights i:nth-child(1) { background: #ff5f57; } .ag-lights i:nth-child(2) { background: #febc2e; } .ag-lights i:nth-child(3) { background: #28c840; }
+.ag-appname { font-weight: 700; font-size: 22px; color: var(--ink); letter-spacing: -.01em; }
+.ag-appmodel { font-size: 16px; color: var(--ink-3); }
+.ag-tools { display: flex; align-items: center; gap: 16px; color: var(--ink-3); }
+.ag-welcome-h { position: absolute; left: 0; right: 0; text-align: center; font-weight: 500; font-size: 44px; letter-spacing: -.02em; color: var(--ink-2); }
+
+/* CHAT */
+.ag-bubble { position: absolute; background: var(--user); border-radius: 24px; padding: 19px 20px; font-size: 15.5px; line-height: 23.5px; color: var(--ink); }
+.ag-status { position: absolute; display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink-3); }
+
+/* TOOL CARD + METER */
+.ag-toolhead { position: absolute; display: flex; align-items: center; gap: 8px; font-size: 16px; color: var(--ink-3); }
+.ag-tool { position: absolute; background: var(--card-2); border: 1.5px solid var(--line); border-radius: 16px; overflow: hidden; }
+.ag-tool .ag-shot { position: absolute; left: 0; right: 0; top: 0; background: var(--page); overflow: hidden; }
+.ag-tool .ag-cap { position: absolute; left: 0; right: 0; bottom: 0; height: 48px; display: flex; align-items: center; gap: 12px; padding-left: 16px; font-size: 17px; color: var(--ink-2); }
+.ag-meter { position: absolute; display: flex; align-items: center; gap: 9px; font-size: 12px; color: var(--ink-3); white-space: nowrap; }
+.ag-chip { display: inline-flex; align-items: center; height: 28px; padding: 0 12px; border-radius: 14px; background: var(--chip); color: var(--chip-ink); font-size: 14.5px; font-weight: 600; }
+.ag-meter .ag-chip { height: 24px; padding: 0 10px; border-radius: 12px; font-size: 11.6px; }   /* the live meter: text x0.8, vertical padding x0.8 */
+
+/* BROWSER PANE */
+.ag-browser { position: absolute; background: var(--window); }
+.ag-tabs { position: absolute; left: 0; right: 0; top: 0; height: 76px; display: flex; align-items: center; gap: 2px; padding: 0 12px 0 14px; color: var(--ink-3); font-size: 14px; }
+.ag-tab { height: 40px; display: flex; align-items: center; gap: 9px; padding: 0 12px; border-radius: 12px; white-space: nowrap; overflow: hidden; flex: none; }
+.ag-tab.on { background: var(--bubble); color: var(--ink); }
+.ag-nav { position: absolute; left: 0; right: 0; top: 82px; height: 44px; display: flex; align-items: center; gap: 14px; padding: 0 16px; color: var(--ink-3); }
+.ag-url { flex: 1; height: 36px; border-radius: 12px; background: var(--bar); display: flex; align-items: center; padding: 0 16px; font-size: 16px; margin: 0 -2px; color: var(--ink-2); }
+.ag-pagearea { position: absolute; left: 0; right: 0; bottom: 0; background: var(--page); color: var(--on-page); overflow: hidden; }
+
+/* ANSWER CARD */
+.ag-answer { position: absolute; background: var(--card-3); border-radius: 22px; padding: 22px 19px 20px; color: var(--ink); }
+.ag-answer h4 { margin: 0 0 18px; font-size: 24px; font-weight: 700; letter-spacing: -.01em; color: var(--title); }
+.ag-answer p { margin: 0; font-size: 16.5px; line-height: 23.5px; color: var(--ink-2); }
+.ag-answer p b { color: var(--ink); font-weight: 700; }
+.ag-table { width: 100%; border-collapse: collapse; margin: 26px 0 0; font-size: 15.5px; line-height: 22px; }
+.ag-table th { text-align: left; font-weight: 600; padding: 0 0 16px; color: var(--ink); }
+.ag-table td { padding: 14px 12px 14px 0; border-top: 1px solid var(--line); vertical-align: top; color: var(--ink-2); }
+.ag-table td:first-child { color: var(--ink); font-weight: 500; }
+.ag-table td b { color: var(--ink); font-weight: 700; }
+.ag-table-tools { display: flex; justify-content: flex-end; align-items: center; gap: 28px; margin: 14px 12px 0 0; font-size: 15px; color: var(--ink-2); }
+.ag-table-tools span { display: inline-flex; align-items: center; gap: 8px; }
+.ag-redact { display: block; height: 22px; border-radius: 6px; margin-top: 18px; background: linear-gradient(90deg, #5a5d5c, #3b3d3c 40%, #8a4a3a 55%, #4a4c4b 70%); filter: blur(7px); opacity: .85; }
+.ag-foot { position: absolute; font-size: 14.5px; color: var(--ink-3); }
+.ag-foot .ag-chip { height: 28px; margin: 0 8px; }
+
+/* CLAIM + LOCKUP */
+.ag-claim-h { position: absolute; left: 0; right: 0; text-align: center; font-weight: 400; font-size: 104px; letter-spacing: -.055em; line-height: 1.3; color: var(--ink); }
+.ag-claim-l { position: absolute; left: 0; right: 0; text-align: center; font-weight: 500; font-size: 60px; letter-spacing: -.035em; line-height: 1.3; color: var(--accent); }
+.ag-claim-l .ag-n { font-family: var(--font-mono); font-weight: 600; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.ag-claim-l sup { font-size: .5em; vertical-align: .85em; }
+.ag-claim-f { position: absolute; left: 0; right: 0; text-align: center; font-size: 21px; color: var(--ink-3); letter-spacing: -.005em; }
+.ag[data-theme="glow"] .ag-claim-f, .ag[data-theme="glow"] .ag-caption { color: rgba(255, 255, 255, .8); }   /* the footnote sits on the grain: white, for contrast */
+.ag-lockup { position: absolute; display: flex; align-items: center; justify-content: center; gap: 76px; left: 0; right: 0; }
+.ag-lockup .ag-hair { width: 1.5px; align-self: stretch; background: var(--hair); }
+
+/* REDACTION: names, emails, order numbers are blurred in the captured pages */
+.ag-blur { display: inline-block; filter: blur(6px); background: rgba(120, 120, 120, .28); border-radius: 6px; color: transparent; user-select: none; }
+
+
+/* ── FROM THE SECOND REFERENCE (a reference video): chat turns, tool lines, the markdown answer,
+   the integration card, and the small things around a window. All token-styled: they sit on ember, paper and glow. ── */
+.ag-pill { position: absolute; background: var(--asst); border-radius: 14px; padding: 0 16px; height: 43px; display: flex; align-items: center; font-size: 15px; color: var(--ink); white-space: nowrap; }
+.ag-toolrow { position: absolute; display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-3); white-space: nowrap; }
+.ag-worked { position: absolute; display: flex; align-items: center; gap: 6px; font-size: 13.5px; color: var(--ink-3); padding-bottom: 9px; border-bottom: 1px solid var(--line); }
+.ag-reply { position: absolute; background: var(--asst); border-radius: 16px; padding: 17px 16px; font-size: 14.5px; line-height: 21px; color: var(--ink); }
+.ag-reply p { margin: 0 0 14px; }  .ag-reply p:last-child { margin-bottom: 0; }  .ag-reply b { font-weight: 700; }
+.ag-reply ol { margin: 0 0 14px; padding-left: 24px; }  .ag-reply li { margin: 0 0 4px; padding-left: 2px; }
+.ag-code { font-family: var(--font-mono); font-size: 12.5px; padding: 1px 5px; border: 1px solid var(--code-line); border-radius: 4px; background: var(--code-bg); }
+.ag-flink { color: var(--link); display: inline-flex; align-items: center; gap: 4px; }
+.ag-caption { position: absolute; left: 0; right: 0; text-align: center; font-size: 16px; color: var(--caption); }
+.ag-homebar { position: absolute; width: 40px; height: 6px; border-radius: 3px; background: var(--ink-3); opacity: .7; }
+.ag-scrollbar { position: absolute; width: 5px; border-radius: 3px; background: var(--ink-3); opacity: .45; }
+.ag-blurred { filter: blur(3px) brightness(.54); }
+.ag-pr { position: absolute; background: #fff; color: #1f2328; font-weight: 500; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); }
+.ag-pr-head { background: #f7f8fa; border-bottom: 1px solid rgba(0, 0, 0, .1); padding: 24px 34px 0; }
+.ag-pr-repo { display: flex; align-items: center; gap: 14px; font-size: 21px; }  .ag-pr-repo b { font-weight: 700; }
+.ag-pr-tabs { display: flex; gap: 29px; margin-top: 17px; font-size: 19.5px; }
+.ag-pr-tabs span { padding-bottom: 11px; border-bottom: 2.5px solid transparent; }  .ag-pr-tabs .on { font-weight: 700; border-bottom-color: #f08a73; }
+.ag-pr-body { padding: 34px 36px 34px 38px; }  .ag-pr-title { font-size: 38px; line-height: 1.27; font-weight: 600; letter-spacing: -.025em; }  .ag-pr-title i { color: #6d7178; font-style: normal; }
+.ag-pr-meta { display: flex; align-items: center; gap: 12px; margin-top: 15px; font-size: 18.5px; color: #5b6068; flex-wrap: wrap; }  .ag-pr-meta b { color: #1f2328; font-weight: 700; }
+.ag-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 17px 8px 13px; border-radius: 999px; background: #5b6068; color: #fff; font-size: 18.5px; font-weight: 700; }
+.ag-branch { font-family: var(--font-mono); font-size: 16.5px; padding: 3px 9px; border-radius: 7px; background: #ddf0ff; color: #1d4f9a; }
+.ag-pr-sub { display: flex; gap: 28px; margin-top: 17px; padding-bottom: 14px; border-bottom: 1px solid rgba(0, 0, 0, .12); font-size: 18.5px; color: #4a4f57; align-items: center; }  .ag-pr-sub span:not([style]) { display: inline-flex; align-items: center; gap: 9px; }  .ag-pr-sub b { color: #1f2328; font-weight: 700; }  .ag-pr-sub .ag-n { min-width: 24px; height: 24px; padding: 0 7px; border-radius: 999px; background: #ebedf0; font-style: normal; font-weight: 500; font-size: 15px; color: #1f2328; display: inline-flex; align-items: center; justify-content: center; }
+.ag-diffsq { display: inline-flex; gap: 2px; margin-left: 8px; }  .ag-diffsq i { width: 12px; height: 12px; border-radius: 2px; background: #2e8b3d; display: block; }  .ag-diffsq i.r { background: #cf222e; }
+.ag-pr-text { margin-top: 15px; font-size: 18px; line-height: 31px; color: #1f2328; }
+.ag-claim-l.ag-spaced .ag-n { margin: 0 .45em; }
+.ag-poweredby { font-weight: 450; letter-spacing: -.035em; color: var(--ink); white-space: nowrap; }
+
+/* THE MARK'S RIPPLE SPIN (an option, chosen from artifact/agent_icon.py's demo): the four arcs turn about the c, which holds still. Ramps to full speed then slows. one turn that snaps away
+   and settles, each arc a beat after the last, then a pause. Use mark_spin() in agent_components.py; --t is the base seconds (1.4 s). */
+.ag .mk { display: block; overflow: visible; } .ag .mk .c { fill: var(--ink); } .ag .mk .arc { transform-origin: var(--cx) var(--cy); }
+@keyframes ag-ripple { 0% { transform: rotate(0); } 55%, 100% { transform: rotate(360deg); } }
+.ag .mk[data-mode="ripple"] .arc { animation: ag-ripple calc(var(--t, 1.4s) * 1.8) cubic-bezier(.5, 0, .1, 1) infinite; }
+.ag .mk[data-mode="ripple"] .arc.a1 { animation-delay: calc(var(--t, 1.4s) * .09); } .ag .mk[data-mode="ripple"] .arc.a2 { animation-delay: calc(var(--t, 1.4s) * .18); } .ag .mk[data-mode="ripple"] .arc.a3 { animation-delay: calc(var(--t, 1.4s) * .27); }
+@media (prefers-reduced-motion: reduce) { .ag .mk .arc { animation: none !important; } }
+
+/* HALFTONE: the third reference's look (a reference video): the same light window as glow, on a FLAT vermilion ground whose only texture is a halftone of small pale squares
+   (a 9 px pitch) that thickens toward the top-right and the bottom-left corners; the claim and the lockup sit on a warm off-white with the same halftone in orange.
+   Same token names as the other themes. */
+.ag[data-theme="halftone"] {
+  --ground: #e24f2a;  --ground-dim: #f8f7f2;
+  --window: #fdfdfc;  --card: #ffffff;  --card-2: #ffffff;  --card-3: #eeeeec;  --bar: #eeeeec;
+  --bubble: #fbeae0;  --ink: #1c1c1b;  --ink-2: #3c3d3c;  --ink-3: #7b7c7a;
+  --line: rgba(0, 0, 0, .1);  --accent: #e0562f;  --on-accent: #fff;
+  --title: #e0562f;  --chip: #fbe3da;  --chip-ink: #cf4a26;
+  --send: #a62a1a;  --send-off: #d9dad8;  --send-idle: #e3effb;  --on-send-idle: #1c1c1b;
+  --stop: #f9d9d6;  --stop-ink: #a8161a;
+  --user: #fbeae0;  --asst: #ecebe7;  --link: #d6532b;  --code-bg: #f4f5f3;  --code-line: rgba(0, 0, 0, .14);
+  --shadow: 0 28px 70px rgba(70, 14, 0, .34), 0 4px 14px rgba(70, 14, 0, .2);
+  --page: #ffffff;  --on-page: #1a1c1f;  --hair: rgba(0, 0, 0, .3);  --caption: rgba(255, 255, 255, .8);
+}
+.ag[data-theme="halftone"] .ag-ground { background: #e24f2a; }
+.ag[data-theme="halftone"][data-kind="claim"] .ag-ground, .ag[data-theme="halftone"][data-kind="lockup"] .ag-ground { background: radial-gradient(ellipse 60% 70% at 100% 0, #fbeee8, transparent 70%), #f8f7f2; }
+.ag[data-theme="halftone"] .ag-ground::before {
+  content: ""; position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='9' height='9'><rect x='3' y='3' width='3' height='3' fill='%23ffe4da'/></svg>");
+  -webkit-mask-image: radial-gradient(ellipse 36% 55% at 100% 0, #000 25%, transparent 100%), radial-gradient(ellipse 36% 55% at 0 100%, #000 25%, transparent 100%), radial-gradient(ellipse 12% 30% at 0 55%, #000 10%, transparent 100%);
+  mask-image: radial-gradient(ellipse 36% 55% at 100% 0, #000 25%, transparent 100%), radial-gradient(ellipse 36% 55% at 0 100%, #000 25%, transparent 100%), radial-gradient(ellipse 12% 30% at 0 55%, #000 10%, transparent 100%); }
+.ag[data-theme="halftone"][data-kind="claim"] .ag-ground::before, .ag[data-theme="halftone"][data-kind="lockup"] .ag-ground::before {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='9' height='9'><rect x='3' y='3' width='3' height='3' fill='%23f1957b'/></svg>"); opacity: .8; }
+.ag[data-theme="halftone"] .ag-claim-l { color: #bb3a1e; }
+.ag[data-theme="halftone"] .ag-claim-f { color: #5b5b59; font-weight: 500; }
+/* the live timer pill (the third video): centred in the title bar, mono, rust on blush */
+.ag-timer { position: absolute; display: grid; place-items: center; border-radius: 999px; background: var(--chip); color: var(--title); font-family: var(--font-mono); font-weight: 700; letter-spacing: -.01em; }
+/* the order card: the assistant's grey card with bulleted lines and bold run-ins */
+.ag-order { position: absolute; background: var(--asst); border-radius: 22px; color: var(--ink); }
+.ag-order ul { margin: 0; padding: 0; list-style: none; } .ag-order li { position: relative; padding-left: 27px; }
+.ag-order li::before { content: ""; position: absolute; left: 9px; top: .62em; width: 4px; height: 4px; border-radius: 50%; background: var(--ink-3); }
+.ag-confetti { position: absolute; inset: 0; pointer-events: none; } .ag-confetti i { position: absolute; display: block; }
+
+/* BLOOM: the fourth reference's look (a reference video): the first video's dark window and its tokens, on a ground that is drawn in a canvas (bloom.js): a near-black
+   field, a blurred black blob from the top right, ochre and crimson glows from the left, film grain. The claim and the lockup sit on a dimmer copy of it. */
+.ag[data-theme="bloom"] {
+  --ground: #0a0304;  --ground-dim: #070304;
+  --window: #151716;  --card: #151716;  --card-2: #1b1d1c;  --card-3: #1d1f1e;  --bar: #232524;
+  --bubble: #292b2a;  --ink: #f2f0ec;  --ink-2: #d4d2cd;  --ink-3: #8f8d88;
+  --line: rgba(255, 255, 255, .13);  --accent: #e25124;  --on-accent: #fff;
+  --title: #e8442b;  --chip: #36150c;  --chip-ink: #f0a58f;
+  --send-idle: #f2f0ec;  --on-send-idle: #151716;  --stop: #4a1f24;  --stop-ink: #ee4a5a;
+  --shadow: 0 18px 50px rgba(0, 0, 0, .55), 0 2px 8px rgba(0, 0, 0, .4);
+  --page: #ffffff;  --on-page: #1a1c1f;  --hair: rgba(255, 255, 255, .3);
+}
+.ag[data-theme="bloom"] .ag-ground > canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+/* TILE: the golden tile ground (a reference video) under the SAME white-base window as glow and halftone (the "orangey" design): no new colours. Glow's tokens are reused
+   unchanged, and the claim and lockup type and the partner logo are white on the gold, as glow does. The ground is drawn in a canvas (bloom.js, AgBloom.TILE). */
+.ag[data-theme="tile"] {
+  --ground: #a8822e;  --ground-dim: #a8822e;
+  --window: #f9fbf8;  --card: #ffffff;  --card-2: #ffffff;  --card-3: #eaecea;  --bar: #eceeeb;
+  --bubble: #fbecd9;  --ink: #1b1c1b;  --ink-2: #3c3e3d;  --ink-3: #7c7f7c;
+  --line: rgba(0, 0, 0, .11);  --accent: #e0562f;  --on-accent: #fff;
+  --title: #d6532b;  --chip: #f8e1d2;  --chip-ink: #a8381b;
+  --send: #b5301a;  --send-off: #d6d8d5;  --send-idle: #1b1c1b;  --on-send-idle: #fff;
+  --stop: #f9d9d6;  --stop-ink: #b8210e;
+  --user: #fbecd9;  --asst: #eaecea;  --link: #d6532b;  --code-bg: #f4f5f3;  --code-line: rgba(0, 0, 0, .14);
+  --shadow: 0 30px 80px rgba(60, 10, 0, .38), 0 4px 14px rgba(60, 10, 0, .22);
+  --page: #ffffff;  --on-page: #1a1c1f;  --hair: rgba(255, 255, 255, .8);  --caption: rgba(255, 255, 255, .72);
+}
+.ag[data-theme="tile"] .ag-ground > canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.ag[data-theme="tile"] .ag-mark-d { display: none; }   /* a light window takes the dark-ink mark, as glow does */
+.ag[data-theme="tile"][data-kind="claim"], .ag[data-theme="tile"][data-kind="lockup"] { --ink: #f4f1ee; --ink-3: #9a8f89; --accent: #e8552c; --line: rgba(255, 255, 255, .22); }
+.ag[data-theme="tile"][data-kind="claim"] .ag-ground::after, .ag[data-theme="tile"][data-kind="lockup"] .ag-ground::after { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, var(--text-scrim, .2)); }
+.ag[data-theme="tile"] .ag-claim-f, .ag[data-theme="tile"] .ag-caption { color: rgba(255, 255, 255, .8); }

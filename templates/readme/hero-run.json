@@ -1,0 +1,58 @@
+{
+  "slug": "hero",
+  "project": "Acme Support Agent",
+  "description": "An agent that reads a support ticket, checks the order and the refund policy, and drafts the reply. Here it runs on Cerebras with Kimi, side by side with a GPU.",
+  "model": "Kimi K3.1 Pro",
+  "theme": "halftone",
+  "prompt": "Customer 4471 says the headphones arrived broken and wants a refund today. Handle it.",
+  "messages": [
+    {
+      "who": "Triage",
+      "title": "Reading the ticket",
+      "text": "The customer reports a cracked left ear cup on arrival, includes two photos, and asks for a refund rather than a replacement. The order was placed eleven days ago, so it is inside the thirty day window, and the message is polite but clearly time sensitive."
+    },
+    {
+      "kind": "tool",
+      "text": "Searched the order system · order 88213, delivered 9 days ago"
+    },
+    {
+      "who": "Policy",
+      "title": "What the policy says",
+      "text": "Damaged on arrival is a full refund with no return needed when photos are supplied, and refunds under two hundred dollars may be issued without a manager. This order is one hundred and eighty nine dollars, so the agent is allowed to approve it directly."
+    },
+    {
+      "who": "Writer",
+      "verdict": true,
+      "title": "Reply drafted",
+      "text": "I am sorry the headphones arrived damaged. I have refunded the full one hundred and eighty nine dollars to your original payment method, and you do not need to send anything back. It should appear within three to five working days."
+    }
+  ],
+  "answer": {
+    "lead": "Refund approved and the reply is drafted.",
+    "bullets": [
+      [
+        "Refund:",
+        "$189.00 to the original payment method"
+      ],
+      [
+        "Why allowed:",
+        "damaged on arrival, photos supplied, under the $200 limit"
+      ],
+      [
+        "Needs a human:",
+        "nothing"
+      ]
+    ]
+  },
+  "claim": {
+    "number": 1000,
+    "unit": "tokens per second"
+  },
+  "compare": {
+    "gpu_tps": 60,
+    "fast_forward": 5,
+    "note": "Up to 16x faster: Cerebras up to 1,000 tokens/s vs 60, midway through the 30 to 99 tokens/s that OpenRouter providers run Kimi K3.1 Pro at (Nov 2026).",
+    "gpu_tps_range": [30, 99]
+  },
+  "timer": true
+}

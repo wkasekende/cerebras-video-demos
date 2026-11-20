@@ -1,0 +1,9 @@
+out/
+node_modules/
+lambda/bin/
+lambda/node_modules/
+__pycache__/
+templates/pop-in/sample.mp4
+
+# subagent worktrees
+.claude/worktrees/

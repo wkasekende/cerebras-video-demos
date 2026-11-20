@@ -1,0 +1,9 @@
+{
+  "name": "demokit-render",
+  "private": true,
+  "description": "the race film's render function: one window of the film, seek-and-fold in a real Chrome, zip-packaged for AWS Lambda (the page is built locally and shipped in the payload)",
+  "dependencies": {
+    "@sparticuz/chromium": "133.0.0",
+    "puppeteer-core": "25.1.0"
+  }
+}

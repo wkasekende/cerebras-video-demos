@@ -1,0 +1,33 @@
+{
+  "slug": "pop-in-demo",
+  "why": "the pop-your-video-in template: your own 16:9 clip, with rounded corners, REPLACES the white window; the house styling is the text states around it (the typed prompt, the claim, the lockup). Point popin.video at your clip (run make-sample-clip.sh for a stand-in).",
+  "theme": "halftone",
+  "model": "Kimi K3.1 Pro",
+  "prompt": "Walk me through the new onboarding flow and flag anything confusing.",
+  "popin": {
+    "video": "templates/pop-in/sample.mp4"
+  },
+  "claim": {
+    "number": 1000,
+    "unit": "tokens per second",
+    "footnote": "*Demo shown with mock data."
+  },
+  "scenes": [
+    {
+      "scene": "typing",
+      "ms": 4500
+    },
+    {
+      "scene": "popin",
+      "ms": 6000
+    },
+    {
+      "scene": "claim",
+      "ms": 3500
+    },
+    {
+      "scene": "lockup",
+      "ms": 3000
+    }
+  ]
+}

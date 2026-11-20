@@ -1,0 +1,169 @@
+{
+  "slug": "states-tour",
+  "model": "Kimi K3.1 Pro",
+  "prompt": "Order me a breakfast egg sandwich from a bakery near me.",
+  "timer": true,
+  "answer": {
+    "lead": "Ordered: egg sandwich on a milk bun, ready 1:03 to 1:13 PM.",
+    "bullets": [
+      [
+        "Item:",
+        "egg sandwich, no meat, with guacamole"
+      ],
+      [
+        "Total:",
+        "$11.40 including tip"
+      ]
+    ],
+    "footer_seconds": 9,
+    "footer_tokens": "1.1k",
+    "stream_ms": 0
+  },
+  "scenes": [
+    {
+      "scene": "typing",
+      "ms": 4200
+    },
+    {
+      "scene": "turn",
+      "ms": 2500
+    },
+    {
+      "scene": "browse",
+      "ms": 7600,
+      "browse": {
+        "pages": [
+          {
+            "url": "bakery.example/",
+            "title": "Bakery",
+            "heading": "Fresh from the oven",
+            "lines": [
+              "Sandwiches, pastries and coffee, baked daily.",
+              "Order for pickup or delivery."
+            ],
+            "button": "Order now",
+            "pointer": true
+          },
+          {
+            "url": "bakery.example/menu",
+            "title": "Menu",
+            "heading": "Egg sandwich",
+            "lines": [
+              "Choose your bread, your protein and any extras.",
+              "Add guacamole for a dollar."
+            ],
+            "scroll": 220
+          },
+          {
+            "url": "bakery.example/cart",
+            "title": "Cart",
+            "heading": "Your cart",
+            "lines": [
+              "1 egg sandwich on a milk bun",
+              "Subtotal 10.00"
+            ],
+            "button": "Checkout",
+            "pointer": true,
+            "modal": {
+              "title": "Added to cart",
+              "buttons": [
+                "View cart",
+                "Continue shopping"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "scene": "ask",
+      "ms": 5600,
+      "ask": {
+        "question": "Which protein would you like on the sandwich?",
+        "options": [
+          "Sausage",
+          "Ham",
+          "Bacon",
+          "No meat",
+          "No meat with guacamole"
+        ],
+        "reply": "guac"
+      }
+    },
+    {
+      "scene": "turn",
+      "ms": 3000
+    },
+    {
+      "scene": "answer",
+      "ms": 5200,
+      "answer": {
+        "confetti": true,
+        "stream_ms": 31
+      }
+    },
+    {
+      "scene": "versus",
+      "ms": 7000,
+      "versus": {
+        "gpu_tps": 60,
+        "cerebras_tps": 1000,
+        "note": "Up to 16x faster: Cerebras up to 1,000 tokens/s vs 60, midway through the 30 to 99 tokens/s that OpenRouter providers run Kimi K3.1 Pro at (Nov 2026).",
+        "gpu_tps_range": [30, 99]
+      },
+      "thread": [
+        {
+          "kind": "user",
+          "text": "Compare how the two lanes handle the same follow-up about delivery windows."
+        },
+        {
+          "kind": "say",
+          "who": "Planner",
+          "title": "Delivery window",
+          "text": "The bakery offers pickup between one oh three and one thirteen this afternoon, and delivery adds a service fee of two dollars forty. Pickup is cheaper and sooner, so the plan keeps pickup unless the customer asks for delivery, and it records the window in the order so the receipt shows it."
+        },
+        {
+          "kind": "say",
+          "who": "Checker",
+          "verdict": true,
+          "title": "Verdict: pickup",
+          "text": "The order matches the request: one egg sandwich on a milk bun, no meat, with guacamole, for pickup in the stated window, total eleven dollars forty including tip. Nothing in it needs the customer's confirmation, so it can be placed now."
+        }
+      ]
+    },
+    {
+      "scene": "second-turn",
+      "ms": 7000,
+      "second": {
+        "prompt": "Also add a coffee and send me the receipt."
+      }
+    },
+    {
+      "scene": "integration",
+      "ms": 8200,
+      "integration": {
+        "tag": "bakery / orders",
+        "title": "Order 4821: egg sandwich and coffee",
+        "badge": "Placed",
+        "chips": [
+          "pickup",
+          "1:03 PM",
+          "receipt sent"
+        ],
+        "body": [
+          "The sandwich is on a milk bun with guacamole and no meat.",
+          "The coffee was added to the same pickup, and the receipt is on its way to your email."
+        ]
+      }
+    },
+    {
+      "scene": "claim",
+      "ms": 3500
+    },
+    {
+      "scene": "lockup",
+      "ms": 2500
+    }
+  ],
+  "why": "Every state in one film: typing with the pointer click, a browser pane with tabs, pages, a scroll, a modal and a pointer click, an ask with options, the answer with confetti, a second turn typed and sent, the defocus and the integration card, the claim and the lockup. The timer pill is on."
+}

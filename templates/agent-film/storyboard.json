@@ -1,0 +1,66 @@
+{
+  "slug": "kimi-demo",
+  "why": "the template's own example: Kimi, a made-up task and made-up numbers. Replace the words, the theme and (for another model) the logo; everything else is the house.",
+  "theme": "halftone",
+  "model": "Kimi K3.1 Pro",
+  "prompt": "Summarise this week's support tickets and draft a reply to the three most urgent.",
+  "tool": {
+    "name": "Using Browser"
+  },
+  "meter": {
+    "seconds": 4,
+    "tokens": 856,
+    "rate": "1,000 toks/s",
+    "ttft": "31 ms"
+  },
+  "answer": {
+    "lead": "I found 41 tickets this week. Three are urgent:",
+    "bullets": [
+      [
+        "Billing:",
+        "a double charge on the Team plan, two customers affected."
+      ],
+      [
+        "Login:",
+        "single sign-on loops for one enterprise tenant."
+      ],
+      [
+        "Export:",
+        "the CSV export times out above 50k rows."
+      ]
+    ],
+    "footer_seconds": 4,
+    "footer_tokens": "1.1k"
+  },
+  "claim": {
+    "number": 1000,
+    "unit": "tokens per second",
+    "footnote": "*Demo shown with mock data."
+  },
+  "scenes": [
+    {
+      "scene": "typing",
+      "ms": 5000
+    },
+    {
+      "scene": "welcome",
+      "ms": 1800
+    },
+    {
+      "scene": "turn",
+      "ms": 3200
+    },
+    {
+      "scene": "answer",
+      "ms": 4500
+    },
+    {
+      "scene": "claim",
+      "ms": 3500
+    },
+    {
+      "scene": "lockup",
+      "ms": 3000
+    }
+  ]
+}

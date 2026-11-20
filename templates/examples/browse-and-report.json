@@ -1,0 +1,141 @@
+{
+  "slug": "browse-and-report",
+  "why": "A browser agent reads a rate limit page (a scrolling clip), reports back; the debate over the findings runs on a GPU lane and on Cerebras side by side; a second round re-renders on both.",
+  "model": "Kimi K3.1 Pro",
+  "prompt": "Find out whether our nightly job will hit the API rate limit, then report to the analyst.",
+  "popin": {
+    "video": "out/standin/docs.mp4"
+  },
+  "claim": {
+    "number": 1000,
+    "unit": "tokens per second",
+    "footnote": "*Demo shown with mock data."
+  },
+  "scenes": [
+    {
+      "scene": "typing",
+      "ms": 4500
+    },
+    {
+      "scene": "popin",
+      "ms": 11000,
+      "clip_from": 2000
+    },
+    {
+      "scene": "versus",
+      "versus": {
+        "gpu_tps": 60,
+        "cerebras_tps": 1000,
+        "note": "Up to 16x faster: Cerebras up to 1,000 tokens/s vs 60, midway through the 30 to 99 tokens/s that OpenRouter providers run Kimi K3.1 Pro at (Nov 2026).",
+        "fast_forward": 5,
+        "gpu_tps_range": [30, 99]
+      },
+      "thread": [
+        {
+          "kind": "user",
+          "text": "Find out whether our nightly job will hit the API rate limit, then report to the analyst."
+        },
+        {
+          "kind": "tool",
+          "text": "Opened rate limit page · plans and burst allowance"
+        },
+        {
+          "kind": "say",
+          "who": "Browser agent",
+          "text": "Reading the rate limit page now. Limits are counted per workspace rather than per key, in one minute windows, and a batch call counts once however many items it carries. The Team plan allows six hundred requests a minute with a burst of one hundred, and the page highlights that unused burst does not carry over to the next window."
+        },
+        {
+          "kind": "say",
+          "who": "Analyst",
+          "text": "Our nightly job sends nine hundred requests in its first minute, so on the plan as written it would be throttled for the whole first window. Can the job send fewer calls by batching, and does a batch of fifty really count as one call against the limit? I need that sentence quoted, not paraphrased."
+        },
+        {
+          "kind": "say",
+          "who": "Browser agent",
+          "text": "Quoting the page: a batch request is counted as a single request regardless of how many items it contains. Batching the nightly job in groups of fifty turns nine hundred requests into eighteen, which sits far under the six hundred a minute allowance and well inside the burst of one hundred."
+        }
+      ],
+      "ms": 6000
+    },
+    {
+      "scene": "versus",
+      "versus": {
+        "gpu_tps": 60,
+        "cerebras_tps": 1000,
+        "note": "Up to 16x faster: Cerebras up to 1,000 tokens/s vs 60, midway through the 30 to 99 tokens/s that OpenRouter providers run Kimi K3.1 Pro at (Nov 2026).",
+        "gpu_tps_range": [30, 99]
+      },
+      "thread": [
+        {
+          "kind": "user",
+          "text": "Now check what happens on a retry, and whether the retries are counted too."
+        },
+        {
+          "kind": "tool",
+          "text": "Opened retry policy · back off and counted requests"
+        },
+        {
+          "kind": "say",
+          "who": "Browser agent",
+          "text": "Retries are counted like any request, and a rejected request still uses its slot. The page recommends exponential backoff with jitter, starting at one second. With eighteen batched calls the job has room for thirty retries in the same minute before it gets near the limit."
+        },
+        {
+          "kind": "say",
+          "who": "Analyst",
+          "text": "Good. So the plan is batching in fifty, backoff with jitter, and an alert if the retry count passes thirty in any minute. Write it up as a short recommendation with the quoted sentence and the numbers, and keep it to what the page actually says."
+        }
+      ],
+      "ms": 7000
+    },
+    {
+      "scene": "answer",
+      "ms": 6500,
+      "answer": {
+        "lead": "The nightly job will be throttled as written; batching fixes it.",
+        "bullets": [
+          [
+            "Today:",
+            "nine hundred requests in the first minute against a limit of six hundred."
+          ],
+          [
+            "Fix:",
+            "batch in groups of fifty, which counts as eighteen requests."
+          ],
+          [
+            "Retries:",
+            "exponential backoff with jitter; alert above thirty a minute."
+          ],
+          [
+            "Source:",
+            "the rate limit page, quoted in the thread."
+          ],
+          [
+            "Why it matters:",
+            "the plan counts requests per workspace in one minute windows, so a job that sends nine hundred requests at midnight is throttled for the entire first window even though the day's total is small."
+          ],
+          [
+            "What the page says about batching:",
+            "a batch request is counted as a single request regardless of how many items it contains, which is the sentence the analyst asked to see quoted, and it removes the problem without a plan upgrade."
+          ],
+          [
+            "Safety net:",
+            "retries count against the limit and a rejected request still uses its slot, so back off with jitter from one second and alert if retries pass thirty in any minute."
+          ]
+        ],
+        "footer_seconds": 41,
+        "footer_tokens": "5.4k",
+        "stream_ms": 220,
+        "confetti": true
+      }
+    },
+    {
+      "scene": "claim",
+      "ms": 3500,
+      "cut": true
+    },
+    {
+      "scene": "lockup",
+      "ms": 3000
+    }
+  ]
+}

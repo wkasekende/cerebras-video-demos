@@ -1,0 +1,15 @@
+{
+  "name": "cerebras-video-demos",
+  "private": true,
+  "description": "Cerebras video demos: on-brand, side by side and HTML-renderable (a film, a GIF or a live block on a page, from the house components and themes)",
+  "scripts": {
+    "check": "bash tools/agent-film-check.sh",
+    "film": "python3 tools/make-film.py"
+  },
+  "dependencies": {
+    "puppeteer": "^25.10.0"
+  },
+  "devDependencies": {
+    "terser": "^5.51.2"
+  }
+}

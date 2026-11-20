@@ -1,0 +1,6 @@
+# scripts must keep LF line endings on every checkout (a CRLF .sh fails with 'pipefail: invalid option name')
+*.sh text eol=lf
+*.py text eol=lf
+*.mjs text eol=lf
+*.cjs text eol=lf
+*.js text eol=lf

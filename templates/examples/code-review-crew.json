@@ -1,0 +1,142 @@
+{
+  "slug": "code-review-crew",
+  "why": "A reviewer, a tester and an author discuss a change while a code clip scrolls; the debate runs on a GPU lane and on Cerebras side by side; a second round re-renders on both.",
+  "model": "Kimi K3.1 Pro",
+  "prompt": "Review the pull request that adds retry logic to the payment client and tell me if it is safe to ship.",
+  "popin": {
+    "video": "out/standin/code.mp4"
+  },
+  "claim": {
+    "number": 1000,
+    "unit": "tokens per second",
+    "footnote": "*Demo shown with mock data."
+  },
+  "scenes": [
+    {
+      "scene": "typing",
+      "ms": 4500
+    },
+    {
+      "scene": "popin",
+      "ms": 10500
+    },
+    {
+      "scene": "versus",
+      "versus": {
+        "gpu_tps": 60,
+        "cerebras_tps": 1000,
+        "note": "Up to 16x faster: Cerebras up to 1,000 tokens/s vs 60, midway through the 30 to 99 tokens/s that OpenRouter providers run Kimi K3.1 Pro at (Nov 2026).",
+        "gpu_tps_range": [30, 99]
+      },
+      "thread": [
+        {
+          "kind": "user",
+          "text": "Review the pull request that adds retry logic to the payment client and tell me if it is safe to ship."
+        },
+        {
+          "kind": "say",
+          "who": "Reviewer",
+          "text": "The change wraps the charge call in a loop of up to five attempts with a two second pause. My concern is idempotency: if the first attempt reached the processor and only the response was lost, the loop will charge the customer again. I do not see an idempotency key anywhere in the diff."
+        },
+        {
+          "kind": "say",
+          "who": "Author",
+          "text": "The key is generated per order and passed in the header on every attempt, so the processor treats attempts two to five as the same charge. It is in the client constructor rather than in the loop, which is why it does not show up in the lines you are reading."
+        },
+        {
+          "kind": "say",
+          "who": "Tester",
+          "text": "I want that proven rather than asserted. I will write a test where the processor accepts the charge and then drops the connection, retry five times, and assert the ledger has exactly one entry. I will also test a hard decline, which must not be retried at all."
+        },
+        {
+          "kind": "say",
+          "who": "Reviewer",
+          "text": "Add a third case: a timeout on the sixth attempt must surface as an error to the caller instead of being swallowed. Retrying silently forever is worse than failing loudly after five tries, because nobody notices a payment that never completes."
+        }
+      ],
+      "ms": 9500
+    },
+    {
+      "scene": "versus",
+      "versus": {
+        "gpu_tps": 60,
+        "cerebras_tps": 1000,
+        "note": "Up to 16x faster: Cerebras up to 1,000 tokens/s vs 60, midway through the 30 to 99 tokens/s that OpenRouter providers run Kimi K3.1 Pro at (Nov 2026).",
+        "gpu_tps_range": [30, 99]
+      },
+      "thread": [
+        {
+          "kind": "user",
+          "text": "Run the tests and give me a ship or no ship."
+        },
+        {
+          "kind": "tool",
+          "text": "Ran payment-client tests · 3 added, 41 existing"
+        },
+        {
+          "kind": "say",
+          "who": "Tester",
+          "text": "All three new tests pass and the forty one existing ones still do. The dropped connection case produces one ledger entry across five attempts, the hard decline is attempted once, and the sixth attempt timeout raises to the caller with the original error attached."
+        },
+        {
+          "kind": "say",
+          "who": "Reviewer",
+          "text": "Then it is safe to ship. Two small requests for a follow up rather than a blocker: log the idempotency key on every attempt so support can trace a charge, and make the pause configurable. Approving the change with those two notes."
+        }
+      ],
+      "ms": 6500
+    },
+    {
+      "scene": "answer",
+      "ms": 6500,
+      "answer": {
+        "lead": "Safe to ship, with two follow-ups.",
+        "bullets": [
+          [
+            "Idempotency:",
+            "one key per order on every attempt; proven by the dropped connection test."
+          ],
+          [
+            "Declines:",
+            "never retried."
+          ],
+          [
+            "Timeouts:",
+            "surface to the caller after five attempts."
+          ],
+          [
+            "Follow-ups:",
+            "log the key per attempt; make the pause configurable."
+          ],
+          [
+            "Why it is safe:",
+            "the idempotency key is generated per order in the client constructor and sent with every attempt, so a charge the processor already accepted is recognised as the same charge on attempts two to five."
+          ],
+          [
+            "What the tests prove:",
+            "a dropped connection after acceptance leaves exactly one ledger entry across five attempts, a hard decline is attempted once, and a timeout on the sixth attempt raises the original error to the caller."
+          ],
+          [
+            "Next:",
+            "log the key on every attempt and make the pause configurable."
+          ]
+        ],
+        "footer_seconds": 36,
+        "footer_tokens": "4.8k",
+        "stream_ms": 171
+      }
+    },
+    {
+      "scene": "claim",
+      "ms": 3500
+    },
+    {
+      "scene": "lockup",
+      "ms": 3000
+    }
+  ],
+  "attachment": {
+    "title": "payment-client.diff",
+    "meta": "DIFF · 214 lines"
+  }
+}

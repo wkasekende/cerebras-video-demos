@@ -1,0 +1,150 @@
+{
+  "slug": "research-duet",
+  "why": "Two agents argue a question out. The same conversation runs on a GPU lane and on Cerebras side by side; a browsing clip pops in; a revision round runs again on both; the verdict streams in at Cerebras speed.",
+  "model": "Kimi K3.1 Pro",
+  "prompt": "Research whether we can cut our API costs 30% by caching. Two agents, argue it out, then give me a verdict.",
+  "popin": {
+    "video": "out/standin/docs.mp4"
+  },
+  "claim": {
+    "number": 1000,
+    "unit": "tokens per second",
+    "footnote": "*Demo shown with mock data."
+  },
+  "scenes": [
+    {
+      "scene": "typing",
+      "ms": 4500
+    },
+    {
+      "scene": "versus",
+      "versus": {
+        "gpu_tps": 60,
+        "cerebras_tps": 1000,
+        "note": "Up to 16x faster: Cerebras up to 1,000 tokens/s vs 60, midway through the 30 to 99 tokens/s that OpenRouter providers run Kimi K3.1 Pro at (Nov 2026).",
+        "gpu_tps_range": [30, 99]
+      },
+      "thread": [
+        {
+          "kind": "user",
+          "text": "Research whether we can cut our API costs 30% by caching. Two agents, argue it out, then give me a verdict."
+        },
+        {
+          "kind": "say",
+          "who": "Researcher",
+          "text": "I will start with where the money goes. Last month's billing export groups 41,820 requests by endpoint, and sixty one percent of the spend is the summarise endpoint alone. Of those calls, thirty eight percent are exact repeats of a request seen in the previous hour, which is the cheapest saving on the table because a repeat needs no model call at all.",
+          "title": "Where the spend goes"
+        },
+        {
+          "kind": "say",
+          "who": "Skeptic",
+          "text": "Exact repeats are the easy part. My worry is staleness: how many of those repeats would have returned a different answer if we had asked again, and what does a stale answer cost us when a customer reads it? A cache that saves thirty percent and sends one wrong summary a week is not a saving, it is a liability with a delay.",
+          "title": "The staleness risk"
+        },
+        {
+          "kind": "say",
+          "who": "Researcher",
+          "text": "Fair, so I checked the product docs for the freshness promise. They guarantee results no older than five minutes, which means a five minute lifetime breaks nothing we have promised. Inside that window the repeat rate is still twenty nine percent of summarise calls, so the saving holds at roughly thirty one percent of that endpoint's spend.",
+          "title": "Freshness is covered"
+        },
+        {
+          "kind": "say",
+          "who": "Skeptic",
+          "text": "Then my objection narrows. Staleness is covered, but poisoning is not: one bad response, once cached, is served to everyone who asks the same question until it expires. I want to know how often a bad response happens before I agree to repeat it on purpose.",
+          "title": "The poisoning risk"
+        }
+      ],
+      "ms": 10500
+    },
+    {
+      "scene": "popin",
+      "ms": 10000
+    },
+    {
+      "scene": "versus",
+      "versus": {
+        "gpu_tps": 60,
+        "cerebras_tps": 1000,
+        "note": "Up to 16x faster: Cerebras up to 1,000 tokens/s vs 60, midway through the 30 to 99 tokens/s that OpenRouter providers run Kimi K3.1 Pro at (Nov 2026).",
+        "gpu_tps_range": [30, 99]
+      },
+      "thread": [
+        {
+          "kind": "user",
+          "text": "Check the incident log for bad responses, and say what the cache must do about them."
+        },
+        {
+          "kind": "tool",
+          "text": "Opened incident log · 3 bad responses in 90 days"
+        },
+        {
+          "kind": "say",
+          "who": "Researcher",
+          "text": "Three bad responses in ninety days, and each one was a low confidence answer the model itself had flagged. None of them would have been stored if the cache refuses anything below the confidence threshold, so poisoning is a rule in the write path rather than a reason to avoid caching."
+        },
+        {
+          "kind": "say",
+          "who": "Skeptic",
+          "text": "Then the last risk is a cold cache after each deploy. If every release empties it we pay full price for the first hour and the saving shrinks. Warm it from yesterday's fifty most repeated requests before switching traffic over, and I will sign the verdict.",
+          "verdict": true,
+          "title": "Verdict: ship it behind a flag"
+        }
+      ],
+      "ms": 7000
+    },
+    {
+      "scene": "answer",
+      "ms": 6500,
+      "answer": {
+        "lead": "Verdict: yes, with two conditions. Expected saving: 31 percent.",
+        "bullets": [
+          [
+            "Scope:",
+            "the summarise endpoint only, with a five minute lifetime."
+          ],
+          [
+            "Safety:",
+            "validate before storing; never cache a low confidence answer."
+          ],
+          [
+            "Rollout:",
+            "warm the cache from yesterday's top fifty requests, then switch."
+          ],
+          [
+            "Review:",
+            "check the hit rate and the bad response count after two weeks."
+          ],
+          [
+            "Why it holds:",
+            "sixty one percent of spend is one endpoint, thirty eight percent of those calls repeat within the hour, and a five minute lifetime sits inside the freshness the docs already promise, so nothing we have told customers changes."
+          ],
+          [
+            "What could go wrong:",
+            "a bad response stored once is served to everyone who asks again, which is why the write path refuses anything under the confidence threshold; three bad responses in ninety days were all flagged by the model itself."
+          ],
+          [
+            "First week:",
+            "ship behind a flag for ten percent of traffic, compare the hit rate against the forecast of twenty nine percent, and watch the bad response counter before widening."
+          ]
+        ],
+        "footer_seconds": 38,
+        "footer_tokens": "6.2k",
+        "stream_ms": 220
+      }
+    },
+    {
+      "scene": "claim",
+      "ms": 3500
+    },
+    {
+      "scene": "lockup",
+      "ms": 3000,
+      "variant": "powered-by"
+    }
+  ],
+  "attachment": {
+    "title": "Billing export",
+    "meta": "CSV · 41,820 rows"
+  },
+  "timer": true
+}
