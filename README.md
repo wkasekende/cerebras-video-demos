@@ -1,6 +1,6 @@
 # Cerebras Video Demos
 
-<p align="center"><a href="templates/readme/hero.mp4"><img src="templates/readme/hero.gif" alt="An agent's run on Cerebras (left) against a GPU (right): Cerebras is DONE in 0.20 s while the GPU lane is fast-forwarded 5X; the typed task, the mouse click and the answer around it" width="100%"></a><br><sub><b>▶ An agent on Cerebras (left) against a GPU (right), made with this repository from one small JSON file</b> (<a href="templates/readme/hero-run.json"><code>hero-run.json</code></a>). Click for the full 26 s MP4 (this is its best 12 s).</sub></p>
+<p align="center"><a href="templates/readme/hero.mp4"><img src="templates/readme/hero.gif" alt="An agent's run on Cerebras (left) against a GPU (right): Cerebras is DONE in under a second while the GPU lane is fast-forwarded 5X; the typed task, the mouse click and the answer around it" width="100%"></a><br><sub><b>▶ An agent on Cerebras (left) against a GPU (right), made with this repository from one small JSON file</b> (<a href="templates/readme/hero-run.json"><code>hero-run.json</code></a>). Click for the full 26 s MP4 (this is its best 12 s).</sub></p>
 
 **This repository generates Cerebras video demos: on-brand, specialising in side-by-side comparisons and in HTML-renderable video.** A demo is a web page whose every frame is a pure function of time, built from the Cerebras house components, themes, marks and faces. It plays live as a block on a page, or is rendered to an MP4 or GIF (on your machine or on AWS), and the same input always renders the same film. Cerebras against a GPU, side by side, to the millisecond, is what it does best.
 
@@ -40,7 +40,7 @@ python3 tools/make-film.py --check   # seconds: must print READY (the full gate,
 <table>
 <tr>
 <td width="50%"><img src="templates/readme/popin.jpg" alt="Put a video inside: the user's own clip as the whole window with rounded corners" width="100%"><br><sub><b>Put a video inside:</b> your clip is the whole window</sub></td>
-<td width="50%"><img src="templates/readme/versus.jpg" alt="Recreate it: your run on Cerebras (left) against a GPU (right); Cerebras is DONE in 0.20 s with confetti while the GPU lane is still streaming" width="100%"><br><sub><b>Recreate it:</b> Cerebras (Kimi, up to 1,000 tokens/s) on the left is done in 0.20 s; the GPU lane is still going (exact maths, 20x)</sub></td>
+<td width="50%"><img src="templates/readme/versus.jpg" alt="Recreate it: your run on Cerebras (left) against a GPU (right); Cerebras is DONE in under a second with confetti while the GPU lane is still streaming" width="100%"><br><sub><b>Recreate it:</b> Cerebras (Kimi, up to 1,000 tokens/s) on the left is done in 0.20 s; the GPU lane is still going (exact maths, 20x)</sub></td>
 </tr>
 </table>
 
@@ -50,7 +50,7 @@ Both start with an **introduction slide** that says what the project is: a title
 
 ## 3. What a recreated film is made of
 
-Every film is built from the same house components; you supply words, a theme and (optionally) a clip. Text streams word by word at Cerebras speed (never below 1,000 tokens a second, enforced; **Kimi is stated as up to 1,000**, so a Kimi film runs at exactly 1,000), boxes grow with their text, and a frame is a pure function of its time.
+Every film is built from the same house components; you supply words, a theme and (optionally) a clip. Text streams word by word at Cerebras speed (never below 1,000 tokens a second, enforced; **Kimi is stated as up to 2,000**, so a Kimi film runs at exactly 2,000), boxes grow with their text, and a frame is a pure function of its time.
 
 <table>
 <tr>

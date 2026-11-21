@@ -7,7 +7,7 @@
     "video": "out/standin/dashboard.mp4"
   },
   "claim": {
-    "number": 1000,
+    "number": 2000,
     "unit": "tokens per second",
     "footnote": "*Demo shown with mock data."
   },
@@ -24,8 +24,8 @@
       "scene": "versus",
       "versus": {
         "gpu_tps": 60,
-        "cerebras_tps": 1000,
-        "note": "Up to 16x faster: Cerebras up to 1,000 tokens/s vs 60, midway through the 30 to 99 tokens/s that OpenRouter providers run Kimi K3.1 Pro at (Nov 2026).",
+        "cerebras_tps": 2000,
+        "note": "Up to 33x faster: Cerebras up to 2,000 tokens/s vs 60, midway through the 30 to 99 tokens/s that OpenRouter providers run Kimi K3.1 Pro at (Nov 2026).",
         "gpu_tps_range": [30, 99]
       },
       "thread": [
@@ -60,8 +60,8 @@
       "scene": "versus",
       "versus": {
         "gpu_tps": 60,
-        "cerebras_tps": 1000,
-        "note": "Up to 16x faster: Cerebras up to 1,000 tokens/s vs 60, midway through the 30 to 99 tokens/s that OpenRouter providers run Kimi K3.1 Pro at (Nov 2026).",
+        "cerebras_tps": 2000,
+        "note": "Up to 33x faster: Cerebras up to 2,000 tokens/s vs 60, midway through the 30 to 99 tokens/s that OpenRouter providers run Kimi K3.1 Pro at (Nov 2026).",
         "gpu_tps_range": [30, 99]
       },
       "thread": [

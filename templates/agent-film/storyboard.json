@@ -10,7 +10,7 @@
   "meter": {
     "seconds": 4,
     "tokens": 856,
-    "rate": "1,000 toks/s",
+    "rate": "2,000 toks/s",
     "ttft": "31 ms"
   },
   "answer": {
@@ -33,7 +33,7 @@
     "footer_tokens": "1.1k"
   },
   "claim": {
-    "number": 1000,
+    "number": 2000,
     "unit": "tokens per second",
     "footnote": "*Demo shown with mock data."
   },

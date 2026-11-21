@@ -320,6 +320,21 @@ for (const sc of laneMath) {
 }
 
 for (const t of meta.scenes.filter(x => x.scene === 'thread')) ok((t.tps ?? meta.tps ?? MIN_TPS) >= MIN_TPS, `12: thread scene at ${t.start} streams at ${t.tps ?? meta.tps} tokens a second`);
+/* 17: A LOGO ROW CANNOT BREAK THE LAYOUT. In every closing lockup and every intro slide's Cerebras x partner row, whatever logo the user supplied (a very wide wordmark, a tall mark, a raster): every item is drawn (non-zero size), the items do not overlap (8 px apart at least), the whole row sits inside the stage with a 120 px margin, and is centred on it to within 24 px. A partner logo that does not fit shrinks (the SVG's own meet); it never widens the row. */
+const rows = await p.evaluate(() => [...document.querySelectorAll('.scene')].map((sce, i) => ({ i, rows: [...sce.querySelectorAll('.ag-lockup'), ...[...sce.querySelectorAll('div[data-appear]')].filter(d => d.querySelector(':scope > .ag-logo'))].map(r => ({ kids: [...r.children].map(c => ({ x: c.getBoundingClientRect().left, w: c.getBoundingClientRect().width, h: c.getBoundingClientRect().height })) })) })).filter(s => s.rows.length));
+for (const sc of rows) {
+  await seek(Math.min(meta.duration - 1, meta.scenes[sc.i].start + meta.scenes[sc.i].ms - 200));
+  const live = await p.evaluate(i => [...document.querySelectorAll('.scene')[i].querySelectorAll('.ag-lockup, div[data-appear]')].filter(r => r.classList.contains('ag-lockup') || r.querySelector(':scope > .ag-logo')).map(r => { const rr = r.getBoundingClientRect(), sr = document.querySelector('.stage, #stage, .ag')?.getBoundingClientRect() || { left: 0, width: 1920 }; const sc = sr.width / 1920; return [...r.children].map(c => { const b = c.getBoundingClientRect(); return { x: (b.left - sr.left) / sc, w: b.width / sc, h: b.height / sc }; }); }), sc.i);
+  for (const kids of live) {
+    const items = kids.filter(k => k.w > 0 || k.h > 0);
+    ok(items.every(k => k.w > 4 && k.h > 4), `17: scene ${sc.i}: every item of the logo row is drawn (${items.map(k => Math.round(k.w) + 'x' + Math.round(k.h)).join(', ')})`);
+    for (let k = 1; k < items.length; k++) ok(items[k].x - (items[k - 1].x + items[k - 1].w) >= 8, `17: scene ${sc.i}: logo row items ${k - 1} and ${k} do not overlap`);
+    const left = Math.min(...items.map(k => k.x)), right = Math.max(...items.map(k => k.x + k.w));
+    ok(left >= 120 && right <= 1800, `17: scene ${sc.i}: the logo row (${Math.round(left)} to ${Math.round(right)} px) sits inside the stage with a 120 px margin`);
+    ok(Math.abs((left + right) / 2 - 960) <= 24, `17: scene ${sc.i}: the logo row is centred (centre ${Math.round((left + right) / 2)} px)`);
+  }
+}
+
 await browser.close();
 
 console.log(`${checks} checks, ${fails.length} failed`);

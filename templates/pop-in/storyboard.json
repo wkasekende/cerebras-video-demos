@@ -8,7 +8,7 @@
     "video": "templates/pop-in/sample.mp4"
   },
   "claim": {
-    "number": 1000,
+    "number": 2000,
     "unit": "tokens per second",
     "footnote": "*Demo shown with mock data."
   },

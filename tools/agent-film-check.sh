@@ -28,8 +28,8 @@ refuse "a browse scene with no pages" '{"slug":"x","model":"M","prompt":"p","sce
 refuse "an ask with no reply" '{"slug":"x","model":"M","prompt":"p","scenes":[{"scene":"welcome","ms":1000},{"scene":"ask","ms":9000,"ask":{"question":"Which?"}}]}'
 refuse "a fast forward below 1" '{"slug":"x","model":"M","prompt":"p","scenes":[{"scene":"welcome","ms":1000},{"scene":"versus","ms":20000,"versus":{"fast_forward":0.5,"note":"n"},"thread":[{"kind":"say","who":"A","text":"hello there"}]}]}'
 refuse "a cut straight after typing (the morph is not a cut)" '{"slug":"x","model":"M","prompt":"p","scenes":[{"scene":"typing","ms":4500},{"scene":"welcome","ms":1000,"cut":true}]}'
-refuse "a Kimi claim above the stated 1,000 tokens a second" '{"slug":"x","model":"Kimi K3.1 Pro","prompt":"p","claim":{"number":2000},"scenes":[{"scene":"claim","ms":1000}]}'
-refuse "a Kimi Cerebras lane above the stated 1,000 tokens a second" '{"slug":"x","model":"Kimi K3.1 Pro","prompt":"p","scenes":[{"scene":"welcome","ms":1000},{"scene":"versus","ms":9000,"versus":{"gpu_tps":50,"cerebras_tps":1500,"note":"n"},"thread":[{"kind":"say","who":"A","text":"hello there"}]}]}'
+refuse "a Kimi claim above the stated 2,000 tokens a second" '{"slug":"x","model":"Kimi K3.1 Pro","prompt":"p","claim":{"number":2500},"scenes":[{"scene":"claim","ms":1000}]}'
+refuse "a Kimi Cerebras lane above the stated 2,000 tokens a second" '{"slug":"x","model":"Kimi K3.1 Pro","prompt":"p","scenes":[{"scene":"welcome","ms":1000},{"scene":"versus","ms":9000,"versus":{"gpu_tps":50,"cerebras_tps":2500,"note":"n"},"thread":[{"kind":"say","who":"A","text":"hello there"}]}]}'
 refuse "a typing scene with no prompt" '{"slug":"x","model":"M","scenes":[{"scene":"typing"},{"scene":"welcome"}]}'
 refuse "an intro with a bullet list" '{"slug":"x","model":"M","scenes":[{"scene":"intro","intro":{"title":"T","description":"D","points":["a","b"]}}]}'
 refuse "a text that looks like an API key" "$(printf '{"slug":"x","model":"M","prompt":"use %s now","scenes":[{"scene":"welcome","ms":1000}]}' "sk-""abcdefghijklmnopqrstuvwxyz123456")"
@@ -82,6 +82,19 @@ for pair in "templates/from-run/run.json paper" "templates/project-demo/storyboa
   set -- $pair
   out="$(python3 tools/make-film.py "$1" --theme "$2" --still)" || { echo "$out"; exit 1; }
   echo "  $1 ($2): $(echo "$out" | grep -c '^[1-4]/4') steps"
+done
+echo "▸ [agent film] a partner logo of any shape cannot break the layout (a very wide wordmark and a very tall mark: both must fit the row, verified by check 17)"
+mkdir -p out/standin
+printf '%s' '<svg viewBox="0 0 2400 60" xmlns="http://www.w3.org/2000/svg"><rect width="2400" height="60" rx="12" fill="black"/></svg>' > out/standin/wide.svg
+printf '%s' '<svg viewBox="0 0 60 400" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="400" rx="12" fill="black"/></svg>' > out/standin/tall.svg
+for k in wide tall; do
+  python3 - "$k" <<'PY'
+import json, sys
+k = sys.argv[1]
+d = json.load(open("templates/project-demo/storyboard.json")); d["slug"] = "logo-" + k; d["partner_logo"] = "out/standin/%s.svg" % k
+json.dump(d, open("out/standin/logo-%s.json" % k, "w"))
+PY
+  python3 tools/make-film.py "out/standin/logo-$k.json" --still | grep "verified" | sed "s/^/  $k logo: /"
 done
 echo "▸ [agent film] EVERY theme builds and verifies (project-demo in each theme in THEMES): a new theme is checked here without anyone remembering to add it"
 for th in $(python3 -c "import sys; sys.path.insert(0,'artifact'); import agent_film as A; print(' '.join(A.THEMES))" 2>/dev/null); do

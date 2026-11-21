@@ -69,7 +69,7 @@ def ic(name, s=20, sw=1.8, cls=""):
 _icon = lambda f: build.inline_file(ROOT, "brand/cerebras/" + f)
 MARK_D, MARK_L = _icon("cerebras_icon_white_orange.svg"), _icon("cerebras_icon_black_orange.svg")
 LOGO = _icon("cerebras_logo.svg")
-_KIMI = os.path.join(ROOT, "kits", "kimi", "brand", "kimi_logo.svg")   # the first partner kit's mark; a checkout without that kit falls back to the template's neutral stand-in
+_KIMI = os.path.join(ROOT, "kits", "kimi", "brand", "moonshot_logo.svg")   # the first partner kit's mark; a checkout without that kit falls back to the template's neutral stand-in
 PARTNER = build.inline_file(ROOT, _KIMI if os.path.exists(_KIMI) else "templates/agent-film/partner-logo.svg")
 
 

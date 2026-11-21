@@ -1,7 +1,7 @@
 {
   "slug": "hero",
   "project": "Acme Support Agent",
-  "description": "An agent that reads a support ticket, checks the order and the refund policy, and drafts the reply. Here it runs on Cerebras with Kimi, side by side with a GPU.",
+  "description": "An agent that reads a support ticket, checks the order, the payment and the refund policy, files the carrier claim, and drafts the reply. Here it runs on Cerebras with Kimi, side by side with a GPU.",
   "model": "Kimi K3.1 Pro",
   "theme": "halftone",
   "prompt": "Customer 4471 says the headphones arrived broken and wants a refund today. Handle it.",
@@ -9,7 +9,7 @@
     {
       "who": "Triage",
       "title": "Reading the ticket",
-      "text": "The customer reports a cracked left ear cup on arrival, includes two photos, and asks for a refund rather than a replacement. The order was placed eleven days ago, so it is inside the thirty day window, and the message is polite but clearly time sensitive."
+      "text": "The customer reports a cracked left ear cup on arrival, includes two photos, and asks for a refund rather than a replacement. The order was placed eleven days ago, so it is inside the thirty day window. The message is polite but clearly time sensitive: the customer says the headphones were a gift for an event this weekend, which means a replacement shipped in the usual five days would arrive too late to be useful. The photos show a clean break along the hinge, consistent with damage in transit rather than misuse. The ticket is flagged as damaged on arrival, high urgency, refund requested."
     },
     {
       "kind": "tool",
@@ -18,13 +18,79 @@
     {
       "who": "Policy",
       "title": "What the policy says",
-      "text": "Damaged on arrival is a full refund with no return needed when photos are supplied, and refunds under two hundred dollars may be issued without a manager. This order is one hundred and eighty nine dollars, so the agent is allowed to approve it directly."
+      "text": "Damaged on arrival is a full refund with no return needed when photos are supplied, and refunds under two hundred dollars may be issued without a manager. A replacement is offered only when the customer asks for one, and this customer has not. Shipping costs are refunded as well when the item arrives damaged. The policy also asks the agent to record the damage against the carrier, so that the claim can be raised without the customer doing anything. This order is one hundred and eighty nine dollars, so the agent is allowed to approve it directly."
+    },
+    {
+      "kind": "tool",
+      "text": "Read the refund policy · section 4.2, damaged on arrival"
+    },
+    {
+      "who": "Billing",
+      "title": "Checking the payment",
+      "text": "The order was paid by card, one payment, no coupon and no gift balance, so the refund can go back to the original method in a single step. The charge is one hundred and eighty nine dollars for the headphones plus nine dollars ninety five for shipping. Both are refundable under the damaged on arrival rule, which brings the total to one hundred and ninety eight dollars ninety five. The card is still active and the account has no open chargeback, so there is no risk of paying the customer twice. The refund would normally appear within three to five working days."
+    },
+    {
+      "kind": "tool",
+      "text": "Checked the payment record · one card payment, no open disputes"
+    },
+    {
+      "who": "History",
+      "title": "Looking at the account",
+      "text": "This is the customer's fourth order in two years and the first with any problem. There are no earlier refunds, no earlier damage claims and no flags for abuse. The account was created with a verified email, the delivery address matches the billing address, and the previous three orders were delivered without incident. Nothing in the history suggests fraud, and the pattern is what a satisfied returning customer looks like. The agent marks the account as low risk and keeps the full refund as the recommended action."
+    },
+    {
+      "who": "Carrier",
+      "title": "Raising the damage claim",
+      "text": "The carrier's tracking shows the parcel was scanned as delivered nine days ago, with one earlier scan noting a heavily dented outer box at the sorting centre. That scan supports the photos. The agent opens a damage claim against the carrier using the tracking number and the two photographs, and attaches the order number so that the cost can be recovered from the carrier and not from the customer. The claim is filed, and no action is needed from the customer. The agent records the claim number on the ticket for the finance team."
+    },
+    {
+      "kind": "tool",
+      "text": "Filed a carrier damage claim · two photos attached"
+    },
+    {
+      "who": "Stock",
+      "title": "Checking the replacement",
+      "text": "The customer did not ask for a replacement, but the agent checks that one exists so that the reply can offer it. The same model in black is in stock at the nearest warehouse, with forty one units on the shelf, and the order could ship the same day if it is placed before the evening cut off. The colour the customer ordered, silver, has twelve units left, which is enough. Either colour can leave today. The agent notes both options on the ticket so that the offer in the reply is one the warehouse can actually keep."
+    },
+    {
+      "kind": "tool",
+      "text": "Checked stock · silver 12 units, black 41 units, ships today"
+    },
+    {
+      "who": "Shipping",
+      "title": "Pricing express delivery",
+      "text": "The customer needs the headphones before the weekend. Standard delivery takes five working days, which is too slow. Express delivery takes two working days and costs fourteen dollars ninety nine, and next day delivery costs twenty four dollars ninety nine. Because the first parcel arrived damaged, the policy lets the agent waive the shipping cost for a replacement. The agent chooses next day delivery at no charge, which still lands on Friday if the order is placed today, and notes the waiver and its reason on the ticket."
+    },
+    {
+      "who": "Tone",
+      "title": "Reading the customer",
+      "text": "The message is polite, short and specific, and the customer thanks the support team in advance. There is mild stress about the deadline but no anger, no threat to leave and no request for compensation beyond the refund. The right reply is brief and warm, leads with the apology and the refund, and gives the customer a single clear choice about the replacement. The agent avoids long explanations and avoids offering a discount code, which the customer did not ask for and which would not help with the deadline."
+    },
+    {
+      "who": "Loyalty",
+      "title": "Checking the account tier",
+      "text": "The customer is on the standard tier with four orders and no membership. The loyalty programme offers priority support to members, but this customer is not one, and the policy does not allow the agent to grant membership as a goodwill gesture. The agent leaves the account tier unchanged. It does add a note that the customer had a good history and was handled quickly, so that the next agent who sees the account knows the experience was positive and that no extra step was owed."
+    },
+    {
+      "who": "Risk",
+      "title": "Escalation check",
+      "text": "The agent runs the escalation checklist before it closes the ticket. The refund is under the manager limit, there is no sign of fraud, there is no safety risk from the damaged ear cup, the carrier claim has been filed, and the reply does not promise anything outside the policy. None of the escalation conditions is met. The agent records that the ticket was resolved at the first line, with no manager involved, and that the full refund and the carrier claim are both in place."
+    },
+    {
+      "who": "Finance",
+      "title": "Recording the cost",
+      "text": "The agent records the refund of one hundred and ninety eight dollars ninety five against the damaged goods account, with the carrier claim as the expected recovery. If the carrier pays the claim, the cost to the business is zero. If it does not, the loss is booked as shipping damage for the month. The replacement, if the customer accepts it, is booked at cost with the shipping waiver as a separate line, so that the finance team can see exactly what the goodwill gesture cost and why it was approved."
     },
     {
       "who": "Writer",
-      "verdict": true,
       "title": "Reply drafted",
-      "text": "I am sorry the headphones arrived damaged. I have refunded the full one hundred and eighty nine dollars to your original payment method, and you do not need to send anything back. It should appear within three to five working days."
+      "text": "I am sorry the headphones arrived damaged, and I understand you needed them for this weekend. I have refunded the full one hundred and ninety eight dollars ninety five, which covers the headphones and the shipping, to your original payment method, and you do not need to send anything back. It should appear within three to five working days. If you would still like a replacement, reply to this message and I will send one with express delivery at no cost.",
+      "verdict": true
+    },
+    {
+      "who": "Reviewer",
+      "title": "Checking the reply",
+      "text": "The reply apologises first, states the amount and where it goes, says nothing has to be returned, gives the time it will take and offers a replacement with express delivery. It matches the policy and does not promise anything the policy does not allow. The tone is warm and short. The amounts agree with the billing record and the refund figure agrees with the policy. The reviewer approves the reply without changes and marks the ticket resolved pending the refund confirmation."
     }
   ],
   "answer": {
@@ -45,14 +111,17 @@
     ]
   },
   "claim": {
-    "number": 1000,
+    "number": 2000,
     "unit": "tokens per second"
   },
   "compare": {
     "gpu_tps": 60,
-    "fast_forward": 5,
-    "note": "Up to 16x faster: Cerebras up to 1,000 tokens/s vs 60, midway through the 30 to 99 tokens/s that OpenRouter providers run Kimi K3.1 Pro at (Nov 2026).",
-    "gpu_tps_range": [30, 99]
+    "fast_forward": 10,
+    "note": "Up to 33x faster: Cerebras up to 2,000 tokens/s vs 60, midway through the 30 to 99 tokens/s that OpenRouter providers run Kimi K3.1 Pro at (Nov 2026).",
+    "gpu_tps_range": [
+      30,
+      99
+    ]
   },
   "timer": true
 }

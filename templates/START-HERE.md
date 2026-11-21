@@ -59,7 +59,7 @@ The same film in any of six themes. **Dark:** `ember`, `bloom`. **Light:** `pape
    ```bash
    cp templates/project-demo/storyboard.json my-film.json
    ```
-   Change: `slug` (a short name, lowercase and dashes), `model` (your model's name), `popin.video` (the path to your video), `claim.footnote` (what the number is, e.g. `*Up to 1,000 tokens per second: Kimi on Cerebras.`), and in the first scene the `intro` words: `title` (your project's name) and `description` (what the agent is and does, in a sentence or two). An intro slide is a title and a description (with the Cerebras × Kimi logos under it): no bullet points (fold your features into the description). You do not type any `ms`: every scene's length is derived from its content (your clip's own length, the time the intro needs to be read).
+   Change: `slug` (a short name, lowercase and dashes), `model` (your model's name), `popin.video` (the path to your video), `claim.footnote` (what the number is, e.g. `*Up to 2,000 tokens per second: Kimi on Cerebras.`), and in the first scene the `intro` words: `title` (your project's name) and `description` (what the agent is and does, in a sentence or two). An intro slide is a title and a description (with the Cerebras × Kimi logos under it): no bullet points (fold your features into the description). You do not type any `ms`: every scene's length is derived from its content (your clip's own length, the time the intro needs to be read).
 3. Preview, then make it:
    ```bash
    python3 tools/make-film.py my-film.json --theme halftone --still      # one frame: LOOK at it
@@ -78,7 +78,7 @@ The same film in any of six themes. **Dark:** `ember`, `bloom`. **Light:** `pape
    python3 tools/make-film.py my-run.json --theme paper --still       # photographs the money shot; add --at MS for any moment
    python3 tools/make-film.py my-run.json --theme paper
    ```
-3. **GPU against Cerebras:** add `"compare": {"gpu_tps": 60, "gpu_tps_range": [30, 99], "note": "where your GPU number comes from"}` to the run log. The film shows both lanes streaming your run; the maths on screen is exact. The Cerebras lane runs at 1,000 tokens a second or more, and **Kimi is stated as up to 1,000**, so a Kimi film runs at exactly 1,000. The `note` is required: say where the GPU rate comes from, or that it is illustrative.
+3. **GPU against Cerebras:** add `"compare": {"gpu_tps": 60, "gpu_tps_range": [30, 99], "note": "where your GPU number comes from"}` to the run log. The film shows both lanes streaming your run; the maths on screen is exact. The Cerebras lane runs at 1,000 tokens a second or more, and **Kimi is stated as up to 2,000**, so a Kimi film runs at exactly 2,000. The `note` is required: say where the GPU rate comes from, or that it is illustrative.
 
 Both commands do everything (the film comes out about 25 s for a short run; the key-by-key guide for the run log is [`from-run/README.md`](from-run/README.md)): they check your input, build the film, **measure the layout**, run about 600 checks and only then render. Add `--cloud` to render on the AWS function (needs the keys your team gave you) instead of your own machine.
 

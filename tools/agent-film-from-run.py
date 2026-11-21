@@ -121,6 +121,8 @@ def _build(run):
     if run.get("compare"):
         v = {"gpu_tps": 50, **run["compare"]}
         v.setdefault("note", "")
+        if A.up_to(str(run.get("model", "Kimi K3.1 Pro"))):
+            v.setdefault("cerebras_tps", A.up_to(str(run.get("model", "Kimi K3.1 Pro"))))   # the model's stated speed, the same one the loader defaults to
         full = {"versus": {**A.VERSUS_DEFAULTS, **v}, "thread": thread}
         vt = A.versus_times(full)
         scenes.append({"scene": "versus", "ms": up(vt["g_film_end"] + A.DONE_HOLD_MS + 200), "versus": v, "thread": thread})
@@ -131,14 +133,14 @@ def _build(run):
     ans = dict(run["answer"])
     # the answer's footer ("Worked for N seconds", "Done in N seconds · N output tokens") is DERIVED from the run, never typed: the tokens are the run's own (the estimate used everywhere), the seconds are what the Cerebras lane takes
     total = sum(A.ntok(m["text"]) + (A.ntok(m["title"]) if m.get("title") else 0) for m in run["messages"] if m.get("kind") != "user") + A.answer_tokens({"lead": ans["lead"], "bullets": ans.get("bullets", [])})
-    cps = float((run.get("compare") or {}).get("cerebras_tps", A.VERSUS_DEFAULTS["cerebras_tps"]))
+    cps = float((run.get("compare") or {}).get("cerebras_tps", A.up_to(str(run.get("model", ""))) or A.VERSUS_DEFAULTS["cerebras_tps"]))
     ans.setdefault("footer_seconds", max(1, int(round(total / cps))))
     ans.setdefault("footer_tokens", "%.1fk" % (total / 1000.0))
     ans["stream_ms"] = A.answer_tokens({"lead": ans["lead"], "bullets": ans.get("bullets", [])})   # exactly the Cerebras rate
     scenes.append({"scene": "answer", "ms": 6500, "answer": ans})
     scenes += [{"scene": "claim", "ms": 3500}, {"scene": "lockup", "ms": 3000}]
     film = {"slug": slug, "why": "Built from a run log by tools/agent-film-from-run.py: %s." % run["project"], "theme": run.get("theme", "halftone"), "model": run["model"], "prompt": run["prompt"],
-            "claim": {"footnote": "*Demo shown with mock data.", **run.get("claim", {"number": 1000, "unit": "tokens per second"} if A.up_to(run["model"]) else {"unit": "tokens per second"})}, "scenes": scenes}
+            "claim": {"footnote": "*Demo shown with mock data.", **run.get("claim", {"number": A.up_to(run["model"]), "unit": "tokens per second"} if A.up_to(run["model"]) else {"unit": "tokens per second"})}, "scenes": scenes}
     for k in ("attachment", "timer", "partner_logo", "words"):
         if k in run:
             film[k] = run[k]

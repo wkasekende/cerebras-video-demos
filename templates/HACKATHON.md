@@ -9,7 +9,7 @@ This kit is **optional**: a starting point and reference for presenting your dem
 | The event says | What the kit does |
 |---|---|
 | Demo video **60 seconds at most** (hard limit) | `make-film.py` prints the film's length and warns above 60 s. Keep your scenes short: an intro is about 6 s, the clip 20 to 35 s, the claim and lockup about 8 s |
-| **Show Cerebras speed** | the claim card, the live tokens-per-second meter and the DONE clocks are derived from your numbers; Kimi on Cerebras is stated as up to 1,000 tokens a second |
+| **Show Cerebras speed** | the claim card, the live tokens-per-second meter and the DONE clocks are derived from your numbers; Kimi on Cerebras is stated as up to 2,000 tokens a second |
 | **Side-by-side with a GPU provider** recommended | the `versus` scene (Cerebras on the left, a desaturated GPU lane on the right; set `compare` in a run log) |
 | **Focus on your project** | the intro slide is your title and description; your own recording is the whole window |
 | **Protect your privacy** (no notifications, tabs, keys, emails) | the build refuses a storyboard that contains something shaped like an API key; you still have to look at your own recording |
@@ -20,7 +20,7 @@ This kit is **optional**: a starting point and reference for presenting your dem
 
 **Prizes:** Audience Choice on X, 3 x $1,000 (most organic impressions on the X demo post); Audience Choice on Reddit, 1 x $1,000 (most organic upvotes on [r/cerebras](https://www.reddit.com/r/cerebras), flair "Kimi K3.1 Pro Hackathon"); Speed Bounty "Santa's Speedy Shopper", $1,000 for the fastest run (tokens per second) of a holiday task, with OpenClaw and Kimi K3.1 Pro on Cerebras finding 5 real Christmas gifts on real shopping websites. The Speed Bounty entry steps are in the guide. Organic reach only. Record your public X and Reddit demos with standard OpenClaw.
 
-**How to submit:** post your demo video on **X** (required) with `@Cerebras`, `@Kimi_Moonshot` and `#KimiOnCerebras`; optionally also post on **r/cerebras** with the flair above. There is no Discord submission: Discord is for questions and support.
+**How to submit:** post your demo video on **X** (required) with `@Cerebras`, `@Kimi_Moonshot` and `#KimiOnCerebras`; optionally also post on **r/cerebras** with the flair above. Main project submissions go on X (required) and Reddit (optional). Speed Bounty entries are posted in #share-your-demo on Discord.
 
 **The post** (X is the official submission; Reddit is optional):
 

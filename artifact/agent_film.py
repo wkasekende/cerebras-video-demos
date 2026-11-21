@@ -287,6 +287,17 @@ def _load(cfg):
     if not re.fullmatch(r"[a-z0-9][a-z0-9-]*", cfg["slug"]):
         refuse("slug: lowercase letters, digits and dashes")
     cfg.setdefault("prompt", "")   # the typed task is needed only by the scenes that show it (checked below)
+    cap0 = up_to(cfg["model"]) if isinstance(cfg.get("model"), str) else None
+    if cap0:   # a model with a stated speed: what the user did not give defaults to that speed (the Cerebras lane, the claim, the meter), never to the generic 1,000
+        if "tps" not in cfg:
+            cfg["tps"] = cap0
+        if isinstance(cfg.get("claim", {}), dict):
+            cfg["claim"] = {"number": cap0, **cfg.get("claim", {})}
+        if isinstance(cfg.get("meter", {}), dict):
+            cfg["meter"] = {"rate": "{:,} toks/s".format(cap0), **cfg.get("meter", {})}
+        for sc_ in cfg["scenes"] if isinstance(cfg.get("scenes"), list) else []:
+            if isinstance(sc_, dict) and sc_.get("scene") == "versus" and isinstance(sc_.get("versus", {}), dict):
+                sc_["versus"] = {"cerebras_tps": cap0, **sc_.get("versus", {})}
     for k, v in DEFAULTS.items():
         if isinstance(v, dict):
             cfg[k] = {**v, **cfg.get(k, {})}
@@ -553,7 +564,7 @@ THREAD_KINDS = ("say", "tool", "user")
 GAP_MS = 650           # the pause between one message and the next
 FIRST_MS = 700         # the pause before the first message
 SETTLE_MS = 900
-MODEL_UP_TO = {"kimi": 1000}   # the speed STATED for a model, "up to N tokens per second" (owner, 2026-11-20: Kimi is up to 1,000): a film for that model never claims, streams or shows a Cerebras lane above it, and never below MIN_TPS, so a Kimi film runs at exactly 1,000
+MODEL_UP_TO = {"kimi": 2000}   # the speed STATED for a model, "up to N tokens per second" (owner, 2026-11-20: Kimi was up to 1,000; 2026-11-21: up to 2,000): a film for that model never claims, streams or shows a Cerebras lane above it, and never below MIN_TPS, so a Kimi film runs at exactly 1,000
 MIN_TPS = 1000         # the Cerebras speed: nothing the film streams as Cerebras is slower than this (refused in load(), held again by tools/agent-film-verify.mjs)
 # THE PHYSICAL BEATS OF A CLICK, fixed for every theme so no storyboard has to ask: the typing scene ends with the pointer gliding to the send button and pressing it; the morph begins at the click
 POINTER_MS = 700       # the pointer's glide to the send button
@@ -702,23 +713,28 @@ def thread_rows(plan, w=860, bubble_max=600, avatar=None, attach=""):
     return rows
 
 
-def partner_html(cfg, h):
+def _plogo(h, svg, maxw):
+    """the partner's SVG in a box `h` high and AT MOST `maxw` wide: a very wide wordmark shrinks to fit (meet), it never widens the lockup past its row"""
+    return f'<span class="ag-logo ag-logo-partner" style="height:{h}px;max-width:{maxw}px">{svg}</span>'
+
+
+def partner_html(cfg, h, maxw=640):
     """the partner's logo beside Cerebras: the user's `partner_logo`; else Kimi's when the model is Kimi; else NOTHING (no other model's logo is in this kit, and a wrong logo is worse than none)"""
     if cfg.get("partner_logo"):
-        return logo_html(cfg["partner_logo"], h)
-    if "kimi" in str(cfg.get("model", "")).lower() and os.path.exists(os.path.join(ROOT, "kits", "kimi", "brand", "kimi_logo.svg")):
-        return A.logo(h, partner_svg(cfg), "ag-logo-partner")   # Kimi's logo ships only where the Kimi kit does (a public checkout without it shows Cerebras alone, never a stand-in passed off as Kimi)
+        return logo_html(cfg["partner_logo"], h, maxw)
+    if "kimi" in str(cfg.get("model", "")).lower() and os.path.exists(os.path.join(ROOT, "kits", "kimi", "brand", "moonshot_logo.svg")):
+        return _plogo(h, partner_svg(cfg), maxw)   # Moonshot's logo ships only where the Kimi kit does (a public checkout without it shows Cerebras alone, never a stand-in passed off as Kimi)
     return ""
 
 
-def logo_html(path, h):
+def logo_html(path, h, maxw=None):
     """a user's logo: an SVG (inlined like the house marks) or a PNG, JPG or WebP (embedded as it is, at the given height)"""
     ext = os.path.splitext(path)[1].lower()
     if ext == ".svg":
-        return A.logo(h, build.inline_file(ROOT, path), "ag-logo-partner")
+        return _plogo(h, build.inline_file(ROOT, path), maxw or 4000)
     import base64
     mt = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp"}.get(ext)
-    return '<img alt="" style="height:%dpx;width:auto;display:block" src="data:%s;base64,%s">' % (h, mt, base64.b64encode(open(path, "rb").read()).decode())
+    return '<img alt="" style="height:%dpx;width:auto;max-width:%dpx;object-fit:contain;display:block" src="data:%s;base64,%s">' % (h, maxw or 4000, mt, base64.b64encode(open(path, "rb").read()).decode())
 
 
 def intro_times(q):
@@ -872,7 +888,7 @@ def scene_html(cfg, sc, theme):
         logo = f'<div data-appear="120" style="margin-bottom:40px">{logo_html(q["logo"], 86)}</div>' if q.get("logo") else ""
         title = reveal([(q["title"], False)], it["title"][0], it["title"][1], tag="div", style="font-size:112px;line-height:1.1;letter-spacing:-.045em;font-weight:500;color:var(--ink);max-width:1500px")
         desc = '<div class="ag-claim-f" style="position:static;margin-top:44px;font-size:42px;line-height:1.38;letter-spacing:-.01em;max-width:1240px">' + reveal([(q["description"], False)], it["description"][0], it["description"][1], tag="div") + '</div>'
-        pl = partner_html(cfg, 56) if it["lockup"] else ""
+        pl = partner_html(cfg, 56, 380) if it["lockup"] else ""
         lock = (f'<div data-appear="{it["lockup"]}" style="margin-top:70px;display:flex;align-items:center;justify-content:center;gap:34px">{A.logo(66)}'
                 + (f'<span style="font-size:44px;font-weight:300;color:var(--ink);opacity:.7;line-height:1">×</span>{pl}' if pl else "") + '</div>') if it["lockup"] else ""
         body = f'<div style="position:absolute;left:0;top:0;width:1920px;height:1080px;display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:260px;box-sizing:border-box">{logo}{title}{desc}{lock}</div>'
@@ -1010,14 +1026,14 @@ def scene_html(cfg, sc, theme):
     if kind == "lockup":
         if sc.get("variant") == "powered-by":   # reference video 2: "powered by" in a light face, then the house logo
             return Pg.place(400, 400, f'<div style="position:relative;width:1120px;height:280px"><div class="ag-lockup" style="top:49px;height:182px;gap:44px"><span style="font-size:58px;font-weight:300;letter-spacing:-.02em;color:var(--ink)">powered by</span>{A.logo(182)}</div></div>')
-        partner = partner_html(cfg, 104)
-        tail = ('<span class="ag-hair"></span>' + partner) if partner else ""
-        return Pg.place(400, 400, f'<div style="position:relative;width:1120px;height:280px"><div class="ag-lockup" style="top:49px;height:182px">{A.logo(182)}{tail}</div></div>')
+        partner = partner_html(cfg, 104, 640)
+        tail = ('<span style="font-size:92px;font-weight:300;color:var(--ink);opacity:.75;line-height:1">×</span>' + partner) if partner else ""   # the same visible × as the intro slide (the reference's 30% hairline vanished on the light grounds)
+        return Pg.place(200, 400, f'<div style="position:relative;width:1520px;height:280px"><div class="ag-lockup" style="top:49px;height:182px">{A.logo(182)}{tail}</div></div>')
     raise Refusal(kind)
 
 
 def partner_svg(cfg):
-    kimi = os.path.join(ROOT, "kits", "kimi", "brand", "kimi_logo.svg")   # Kimi by default; a checkout without that kit falls back to the neutral stand-in
+    kimi = os.path.join(ROOT, "kits", "kimi", "brand", "moonshot_logo.svg")   # Kimi by default; a checkout without that kit falls back to the neutral stand-in
     p = cfg.get("partner_logo") or (kimi if os.path.exists(kimi) else "templates/agent-film/partner-logo.svg")
     return build.inline_file(ROOT, p)
 

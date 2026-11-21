@@ -38,7 +38,7 @@ Use these values everywhere in the repo (README, config, templates, example copy
 1. **Required:** post the demo video on X with the project description, tagging `@Cerebras` and `@Kimi_Moonshot` and including `#KimiOnCerebras`.
 2. **Optional:** also post on r/cerebras with the `Kimi K3.1 Pro Hackathon` flair to compete for the Reddit prize.
 
-There is **no Discord submission**. Discord is for questions and support only.
+Main project submissions go on X (required) and Reddit (optional). Speed Bounty entries are posted in #share-your-demo on Discord.
 
 Each post should include: Project Name, Team Members, Project Description (2–4 sentences), Demo Video, GitHub Repository (recommended).
 
@@ -58,7 +58,7 @@ The kit is optional inspiration. Never present its style as required.
 Search the whole repo (README, docs, config, templates, example scripts, captions, on-screen text) and fix anything that conflicts with the facts above. In particular, look for:
 
 - [ ] "TPS Bounty", "bounty hunt" or "fastest TPS prompt" → replace with the **Speed Bounty (Santa's Speedy Shopper)** wording
-- [ ] Any instruction to submit in Discord or in "track channels" → remove; submission is X (required) plus Reddit (optional)
+- [ ] Any instruction to submit a main project in Discord or in "track channels" → remove; main project submissions are X (required) plus Reddit (optional). Only Speed Bounty entries are posted in #share-your-demo on Discord
 - [ ] Wrong or vague dates ("Tuesday morning", "Sunday, Nov 21", "Monday, Sunday") → use the dates in the table
 - [ ] Any model ID other than `moonshotai-kimi-k3.1-pro-trial`, or a non-standard endpoint
 - [ ] Video length over 60 seconds, or the GPU comparison described as mandatory
