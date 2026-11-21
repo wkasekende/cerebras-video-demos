@@ -1,0 +1,65 @@
+{
+  "source": "Original user-supplied Cerebras-Demo-Basics-Shareable.zip, plus official Manrope Medium for the powered-by style match",
+  "verified_families_and_faces": [
+    {
+      "file": "instrument-sans-latin.woff2",
+      "family": "Instrument Sans",
+      "style": "Regular",
+      "sha256": "19f8ec3200550a11859c7e52d7378354bf71bc6dd0441fdde79b9a660513f5e4"
+    },
+    {
+      "file": "manrope-600.ttf",
+      "family": "Manrope",
+      "style": "SemiBold",
+      "sha256": "6bad1a774228464cc88b8b0271555b266f7a3c64a7bedf15e165fdab4f6ac0ce"
+    },
+    {
+      "file": "manrope-700.ttf",
+      "family": "Manrope",
+      "style": "Bold",
+      "sha256": "b9584e099e0e7f1e1e914c3037aabb9010c50346a3ce8df5eeeeecc0563044d8"
+    },
+    {
+      "file": "manrope-800.ttf",
+      "family": "Manrope",
+      "style": "ExtraBold",
+      "sha256": "b8f802f05b322a7345805f5b89f8bb976604cc719a91530918d5ce3c47160950"
+    },
+    {
+      "file": "sometype-mono-600.ttf",
+      "family": "Sometype Mono",
+      "style": "SemiBold",
+      "sha256": "df915f640b95b5b4f1ea8717919f1c912f9b0a21e38f8b63504e91c1443267ae"
+    },
+    {
+      "file": "sometype-mono-700.ttf",
+      "family": "Sometype Mono",
+      "style": "Bold",
+      "sha256": "69b0f548e84d2ed43a3bd8fd8ce7ee048e0c821ae2759bd6064a36bdfbd6ecde"
+    },
+    {
+      "file": "manrope-500.ttf",
+      "family": "Manrope",
+      "style": "Medium",
+      "sha256": "eaed1186a1d932269794bab86f9e6ef1a4b2deca1349d4e4572f42bf5a0eb544",
+      "source": "Official Google Fonts Manrope variable, static weight500 instance; see manrope-500-provenance.json"
+    }
+  ],
+  "renderer_roles": {
+    "DONE heading": "manrope-800.ttf",
+    "model headings": "manrope-700.ttf",
+    "labels": "manrope-600.ttf / manrope-700.ttf",
+    "clocks and metric headlines": "sometype-mono-700.ttf",
+    "DONE card recorded times": "sometype-mono-600.ttf",
+    "prompt composer": "instrument-sans-latin.woff2"
+  },
+  "fallbacks_used": false,
+  "reference_story_roles": {
+    "headers and narrative claim": "manrope-600.ttf / manrope-700.ttf",
+    "DONE overlay": "manrope-800.ttf",
+    "elapsed and result numbers": "sometype-mono-600.ttf / sometype-mono-700.ttf",
+    "prompt composer": "instrument-sans-latin.woff2",
+    "speedup page headline, including multiplier": "manrope-500.ttf; -0.065em tracking; #EBE4DB",
+    "speedup page disclosure": "manrope-500.ttf; #EBE4DB"
+  }
+}

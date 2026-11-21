@@ -1,0 +1,8 @@
+{
+  "source": "cerebras-wordmark.svg from original user-supplied skill ZIP",
+  "source_sha256": "34ee43df104a03a962417db4ef615dc9f3718093b21cd6214cf76e3abd03cf93",
+  "rendered_file": "cerebras-wordmark-rendered.png",
+  "width": 1000,
+  "height": 462,
+  "notes": "PNG rasterization of complete supplied SVG viewBox for the light DONE card. Original vector preserved; no typeset wordmark recreation."
+}

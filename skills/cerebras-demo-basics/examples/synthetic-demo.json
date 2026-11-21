@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "audience": "Demo creators evaluating the reusable motion layout",
+  "takeaway": "Test timing, composition, acceleration, completion, and a simple ending; no performance claim is supported",
+  "comparison_kind": "same_model_infrastructure",
+  "display_prompt": "Create a financial dashboard.",
+  "full_prompt": "Synthetic rendering fixture. No request was submitted to any model.",
+  "completion_boundary": "The synthetic result cards are fully visible",
+  "disclosure": "Synthetic recordings and timings for template testing only. No model performance was measured.",
+  "opening_s": 2.5,
+  "result_hold_s": 1.5,
+  "outro_s": 4,
+  "completion_card": {
+    "enabled": true,
+    "duration_s": 2.5,
+    "partner_name": "Partner"
+  },
+  "background": {
+    "image": "../assets/backgrounds/reference-orange-halftone.png",
+    "fit": "cover"
+  },
+  "left": {
+    "video": "media/synthetic-left.mp4",
+    "model": "Example model",
+    "provider": "Cerebras",
+    "start_s": 0.5,
+    "completion_s": 4,
+    "timing_evidence": "Known animation boundary from scripts/make_example.py; synthetic, not measured inference",
+    "result_note": "Synthetic dashboard cards, not an AI-generated application"
+  },
+  "right": {
+    "video": "media/synthetic-right.mp4",
+    "model": "Example model",
+    "provider": "GPU example",
+    "start_s": 0.5,
+    "completion_s": 12,
+    "timing_evidence": "Known animation boundary from scripts/make_example.py; synthetic, not measured inference",
+    "result_note": "Identical synthetic dashboard cards with a deliberately different animation duration"
+  },
+  "timeline": [
+    {"from_s": 0, "to_s": 4, "speed": 1},
+    {"from_s": 4, "to_s": 10, "speed": 3},
+    {"from_s": 10, "to_s": 12, "speed": 1}
+  ],
+  "outro": {
+    "metric": "elapsed_time",
+    "image": "../assets/outros/powered-by-cerebras.png",
+    "summary_s": 1.8
+  }
+}

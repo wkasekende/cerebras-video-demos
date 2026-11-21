@@ -16,6 +16,10 @@ Fonts (fonts/cerebras/)
   Authors) are licensed under the SIL Open Font License 1.1. The licence texts are fonts/OFL-Manrope.txt and
   fonts/OFL-SometypeMono.txt.
 
+Fonts in the skill (skills/cerebras-demo-basics/assets/fonts/)
+  The same Manrope and Sometype Mono, plus Instrument Sans (Copyright 2022 The Instrument Sans Project Authors), are
+  licensed under the SIL Open Font License 1.1; the licence texts are beside the fonts.
+
 Speeds and claims
   The films are illustrations, not benchmarks. Cerebras's speed on Kimi is stated as "up to 2,000 tokens per second".
   The GPU lane in the shipped examples streams at 60 tokens per second, a point inside the 30 to 99 tokens per second

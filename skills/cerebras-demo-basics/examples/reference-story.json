@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "layout": "reference_story",
+  "synthetic": true,
+  "title": "Vintage tees",
+  "display_prompt": "Find a few distinctive vintage tees in men's large.",
+  "full_prompt": "Synthetic rendering fixture. Illustrative shopping UI, products, and timings; no model or shopping service was used.",
+  "disclosure": "Synthetic template · Not a benchmark",
+  "measurement_label": "FIRST RESPONSE",
+  "opening_s": 4.5,
+  "transition_s": 0.75,
+  "start_hold_s": 0.25,
+  "result_cards_s": 2.5,
+  "speedup_card_s": 2.5,
+  "logos_s": 3,
+  "background": "../assets/backgrounds/reference-orange-halftone.png",
+  "closing_background": "../assets/backgrounds/reference-light-halftone.png",
+  "speedup_background": "../assets/outros/powered-by-cerebras.png",
+  "left": {
+    "video": "media/story-left.mp4",
+    "title": "Example model on Cerebras",
+    "label": "Cerebras",
+    "start_s": 0.5,
+    "stop_s": 4,
+    "timing_evidence": "Known synthetic first-response boundary from scripts/make_story_example.py; no inference measurement",
+    "result_note": "Illustrative first product cards followed by a product detail and follow-up interaction"
+  },
+  "right": {
+    "video": "media/story-right.mp4",
+    "title": "Reference assistant",
+    "label": "Reference",
+    "start_s": 0.5,
+    "stop_s": 20,
+    "timing_evidence": "Known synthetic first-response boundary from scripts/make_story_example.py; no inference measurement",
+    "result_note": "Illustrative waiting state followed by product cards"
+  },
+  "scenes": [
+    {
+      "label": "Both begin",
+      "duration_s": 4,
+      "left": {"from_s": 0, "to_s": 4},
+      "right": {"from_s": 0, "to_s": 4}
+    },
+    {
+      "label": "Explore first results",
+      "duration_s": 4,
+      "left": {"from_s": 4, "to_s": 8},
+      "right": {"from_s": 4, "to_s": 8}
+    },
+    {
+      "label": "Follow-up and inspect",
+      "duration_s": 3,
+      "left": {"from_s": 8, "to_s": 11},
+      "right": {"from_s": 8, "to_s": 11}
+    },
+    {
+      "label": "Accelerate remaining wait",
+      "duration_s": 2,
+      "left": {"hold_s": 11},
+      "right": {"from_s": 11, "to_s": 19}
+    },
+    {
+      "label": "Reference responds",
+      "duration_s": 1,
+      "left": {"hold_s": 11},
+      "right": {"from_s": 19, "to_s": 20}
+    },
+    {
+      "label": "Read both useful responses",
+      "duration_s": 1,
+      "left": {"hold_s": 11},
+      "right": {"hold_s": 20}
+    }
+  ],
+  "partner_name": "PARTNER LOGO",
+  "partner_logo": null
+}

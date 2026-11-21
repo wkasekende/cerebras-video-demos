@@ -1,0 +1,29 @@
+{
+  "status": "recreated_geometric_assets",
+  "original_design_exports": false,
+  "design_approval_claimed": false,
+  "width": 3840,
+  "height": 2160,
+  "color": "#F15A29",
+  "base_color": "#F4F4F1",
+  "generator": "scripts/build_backgrounds.py",
+  "assets": [
+    {
+      "stem": "light-halftone-recreated",
+      "role": "quiet default",
+      "formats": [
+        "svg",
+        "png"
+      ]
+    },
+    {
+      "stem": "light-grid-recreated",
+      "role": "quiet alternative",
+      "formats": [
+        "svg",
+        "png"
+      ]
+    }
+  ],
+  "notes": "Newly drawn geometric recreations of a quiet halftone and a fine grid; not original design-tool exports."
+}

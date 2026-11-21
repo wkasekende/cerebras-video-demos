@@ -1,0 +1,10 @@
+{
+  "family": "Manrope",
+  "weight": 500,
+  "source_url": "https://github.com/google/fonts/blob/main/ofl/manrope/Manrope%5Bwght%5D.ttf",
+  "source_variable_sha256": "3ae11c49db0455a3cc33e37d380f20fdb8c7f8b41dc07625c177e3d87a9d6ae6",
+  "file": "manrope-500.ttf",
+  "sha256": "eaed1186a1d932269794bab86f9e6ef1a4b2deca1349d4e4572f42bf5a0eb544",
+  "license": "Manrope-OFL.txt",
+  "preparation": "Static weight500 instance of official variable font. PNG artwork contains no embedded font metadata; weight/tracking chosen by visual glyph comparison."
+}

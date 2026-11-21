@@ -123,6 +123,27 @@ The same film in any of six themes: change one word (`--theme`). The default, `h
 **Don't:** invent features, numbers, customers or quotes; show a real company's page or a person's private data; put the Cerebras mark on a competitor; render a film that has not passed its checks; type your own timings (they are derived).
 The full list, with the render rules, is in [templates/agent-film/README.md](templates/agent-film/README.md) (the reference for every key and state).
 
+## 7. Have two real recordings? Use the Cerebras demo basics skill
+
+A second, separate way to make the video, for people who recorded **both** sides themselves: [`skills/cerebras-demo-basics/`](skills/cerebras-demo-basics/). It is an agent skill (`SKILL.md`, read by Claude Code, Codex and similar) with a small Python renderer. It edits your two screen recordings into a side-by-side film in the Cerebras reference layout: the prompt typed over orange halftone, two tall app panels with timer pills, a translucent DONE over whichever finishes first, a result card labelled with what the time measures, a speedup card on the "powered by Cerebras" artwork, and a Cerebras and partner logo close.
+
+<p align="center"><img src="skills/cerebras-demo-basics/examples/reference-story-contact-sheet.png" alt="The skill's worked example, scene by scene: the typed prompt, two app panels with timers, DONE over the first finisher, the result cards, the speedup card and the logo close" width="100%"></p>
+
+| You have | Use |
+|---|---|
+| two real recordings of the same task, one on Cerebras and one on the other provider | the skill: [`skills/cerebras-demo-basics/`](skills/cerebras-demo-basics/SKILL.md) |
+| one recording of your project | the kit's pop-in film ([`templates/project-demo/`](templates/project-demo/storyboard.json)) |
+| no recording, only your agent's run as text | the kit's from-run film ([`templates/from-run/`](templates/from-run/run.json)); its GPU lane is **illustrative** and says so on screen |
+
+**Measured, not simulated.** The skill uses your real timings: each side's clock stops where you measured it, nothing is inferred from elapsed time, and the speedup shown is the one your measurements support. It does not assume the other side is a GPU (name the provider you actually used), and its example footage is synthetic and labelled "not a benchmark".
+
+```bash
+cd skills/cerebras-demo-basics
+python3 scripts/render_story_demo.py --manifest examples/reference-story.json --output story-output   # the worked example (28.5 s, silent)
+```
+
+It needs Python 3.10+, Pillow and FFmpeg (`pip install -r scripts/requirements.txt`). Copy `examples/reference-story.json`, point `left.video` and `right.video` at your recordings, set each side's `stop_s` to the second you measured, and render. The brand rules (colours, the Manrope and Sometype Mono files), the logos, the backgrounds and the manifest reference are all inside the folder: [`SKILL.md`](skills/cerebras-demo-basics/SKILL.md) is the entry point for your agent. Keep the video under 60 seconds for the hackathon.
+
 ## Where to go
 
 | I want to... | Read |
@@ -132,6 +153,7 @@ The full list, with the render rules, is in [templates/agent-film/README.md](tem
 | every key, state, rule and check | [templates/agent-film/README.md](templates/agent-film/README.md) |
 | the hackathon rules, post template and tracks (including rebuilding a video as live HTML) | [templates/HACKATHON.md](templates/HACKATHON.md) |
 | see what it can make (example videos, components, themes) | the **[gallery](https://claude.ai/artifact/VytAgnVMnn7jEPmwwsY9dz)** |
+| make a side-by-side from two real recordings | [skills/cerebras-demo-basics](skills/cerebras-demo-basics/SKILL.md) |
 | extend it with my agent (a new scene, theme or language) | [templates/EXTENDING.md](templates/EXTENDING.md) |
 
 ## What is in each folder
@@ -143,6 +165,7 @@ The full list, with the render rules, is in [templates/agent-film/README.md](tem
 | `artifact/` | the film builder (`agent_film.py`) and the component and page builders it uses |
 | `tools/` | `make-film.py` (the one command), the renderer (`agent-film.mjs`), the verifier and the gate (`agent-film-check.sh`) |
 | `brand/`, `fonts/`, `kits/kimi/brand/` | the Cerebras marks, the two typefaces and the Kimi marks |
+| `skills/cerebras-demo-basics/` | an agent skill that edits two real recordings into a side-by-side film (Python, Pillow, FFmpeg), with its brand rules, logos, fonts and example |
 | `lambda/` | optional: render in your own AWS account (your credentials, your cost) |
 
 ## Licence
