@@ -40,7 +40,7 @@ python3 tools/make-film.py --check   # seconds: must print READY (the full gate,
 <table>
 <tr>
 <td width="50%"><img src="templates/readme/popin.jpg" alt="Put a video inside: the user's own clip as the whole window with rounded corners" width="100%"><br><sub><b>Put a video inside:</b> your clip is the whole window</sub></td>
-<td width="50%"><img src="templates/readme/versus.jpg" alt="Recreate it: your run on Cerebras (left) against a GPU (right); Cerebras is DONE in under a second with confetti while the GPU lane is still streaming" width="100%"><br><sub><b>Recreate it:</b> Cerebras (Kimi, up to 1,000 tokens/s) on the left is done in 0.20 s; the GPU lane is still going (exact maths, 20x)</sub></td>
+<td width="50%"><img src="templates/readme/versus.gif" alt="Recreate it: your run on Cerebras (left) against a GPU (right); Cerebras is DONE in under a second with confetti while the GPU lane is still streaming" width="100%"><br><sub><b>Recreate it:</b> Cerebras (Kimi, up to 1,000 tokens/s) on the left is done in 0.20 s; the GPU lane is still going (exact maths, 20x)</sub></td>
 </tr>
 </table>
 
@@ -61,7 +61,7 @@ Every film is built from the same house components; you supply words, a theme an
 <tr>
 <td width="33%"><img src="templates/readme/versus.jpg" alt="Two lanes side by side, the winner's DONE card with confetti, the competitor lane in grey" width="100%"><br><sub><b>Cerebras against a GPU</b>, side by side</sub></td>
 <td width="33%"><img src="templates/readme/integration.jpg" alt="The window defocuses and a card builds in over it" width="100%"><br><sub><b>An integration card</b> over a defocused window</sub></td>
-<td width="33%"><img src="templates/readme/click.jpg" alt="The typed prompt, the mouse gliding to send and clicking, the composer morphing into the window" width="100%"><br><sub><b>The click and the morph</b> into the window</sub></td>
+<td width="33%"><img src="templates/readme/click.gif" alt="The typed prompt, the mouse gliding to send and clicking, the composer morphing into the window" width="100%"><br><sub><b>The click and the morph</b> into the window</sub></td>
 </tr>
 </table>
 
