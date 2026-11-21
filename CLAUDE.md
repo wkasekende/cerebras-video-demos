@@ -65,7 +65,7 @@ Search the whole repo (README, docs, config, templates, example scripts, caption
 - [ ] The kit described as required rather than optional
 - [ ] Post templates missing `@Cerebras`, `@Kimi_Moonshot` or `#KimiOnCerebras`
 - [ ] Hard-coded API keys, tokens, Org IDs or personal details anywhere, including git history of example files
-- [ ] Any reference to, copy of, or download link for the OpenClaw speed patch
+- [ ] Any mention of the OpenClaw speed patch outside the Speed Bounty context, or any use of it in example demo footage for public X/Reddit posts
 - [ ] Broken links (guide, Discord invite, subreddit, examples page)
 
 Report what you changed as a short list, and flag anything you could not verify instead of guessing.
@@ -81,6 +81,6 @@ When adapting the kit to a participant's project, or when event details change:
 ## Hard rules
 
 - Never commit API keys, Org IDs or other credentials.
-- Never add, link to or describe how to obtain the OpenClaw speed patch. It must not be published.
+- Only mention the OpenClaw speed patch in the context of the Speed Bounty (https://github.com/wkasekende/openclaw-speed-patch). Never use it in example demo footage for public X/Reddit posts.
 - Never change Cerebras or Moonshot AI branding assets beyond what the existing kit already does.
 - Don't invent event rules, prizes or dates. If something isn't in this file or the guide, ask or leave a TODO.
